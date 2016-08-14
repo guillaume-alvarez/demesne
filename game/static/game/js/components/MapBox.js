@@ -11,21 +11,28 @@ function mapChanged(event) {
             var text = node ? node : 'empty';
             td.text(text);
             tr.append(td);
+            // add popover
+            td.attr("title",text);
+            td.popover({
+                toggle:"popover",
+                trigger:"hover",
+                container:"body",
+                content:"INFORMATIONS DETAILLEES (TODO)",
+                placement:"bottom"
+            });
         }
         table.append(tr);
     }
 
-    map.empty();
+    $("#startgame").remove();
     map.append(table);
 }
 
 function initButton() {
-    var button = $("<button>START GAME</button>").addClass("btn btn-success btn-lg").attr("type","button");
+    var button = $("<button id='startgame'>START GAME</button>").addClass("btn btn-success btn-lg").attr("type","button");
     button.click(function() { // Note this is a function
         Actions.startGame(4);
     });
-
-    map.empty();
     map.append(button);
 }
 
