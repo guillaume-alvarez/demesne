@@ -1,10 +1,10 @@
 Download from github then...
 
-Load requirements:
+Make sure Python 3.5 is installed
+```see https://www.python.org/downloads/release/python-352/```
 
-  pip install -r requirements.txt
-
+Load python requirements:
+```pip install -r requirements.txt```
 
 Start server:
-
-  python manage.py runserver
+```python manage.py runserver```
