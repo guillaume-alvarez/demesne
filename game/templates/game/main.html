@@ -18,6 +18,8 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" href="{% static 'game/css/main.css' %}" />
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flux/2.1.1/Flux.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/1.2.0/superagent.js"></script>
 
@@ -28,9 +30,14 @@
     <p> - a kingdom building game - </p>
     <div class="col-md-2">
         <p>Player information</p>
+        <div id="player"></div>
     </div>
     <div class="col-md-10">
         <p>Game map...</p>
+        <div id="map"></div>
+    </div>
+    <div class="status">
+        <p class="text-muted">Still in progess...</p>
     </div>
 
     <!-- Set some values using django template to be used in JS code-->
