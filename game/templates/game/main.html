@@ -18,6 +18,9 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flux/2.1.1/Flux.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/1.2.0/superagent.js"></script>
+
     <title>{% block title %}Demesne{% endblock %}</title>
 </head>
 
@@ -32,7 +35,13 @@
 
     <!-- Set some values using django template to be used in JS code-->
     <script type="text/javascript">
+        var AppDispatcher = new Flux.Dispatcher();
     </script>
+
+    <script type="text/javascript" src="{% static 'game/js/tools/EventEmitter.js' %}"></script>
+    <script type="text/javascript" src="{% static 'game/js/tools/Api.js' %}"></script>
+    <script type="text/javascript" src="{% static 'game/js/Actions.js' %}"></script>
+    <script type="text/javascript" src="{% static 'game/js/stores/Store.js' %}"></script>
 
 </body>
 </html>
