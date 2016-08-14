@@ -23,6 +23,7 @@ class Player(models.Model):
 
 class Node(models.Model):
     game = models.ForeignKey(Game)
+    player = models.ForeignKey(Player, null=True)
     x = models.IntegerField()
     y = models.IntegerField()
 
@@ -38,3 +39,4 @@ class Type(models.Model):
 class Place(models.Model):
     node = models.ForeignKey(Node)
     type = models.ForeignKey(Type)
+    player = models.ForeignKey(Player)
