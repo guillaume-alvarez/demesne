@@ -18,6 +18,10 @@ MapStore.prototype.size = function () {
     return this._size;
 };
 
+MapStore.prototype.name = function () {
+    return this._name;
+};
+
 
 MapStore.prototype._init = function (size, name) {
     this._name = name;

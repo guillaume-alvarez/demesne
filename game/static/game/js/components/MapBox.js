@@ -2,6 +2,9 @@
 var map = $("#map");
 
 function mapChanged(event) {
+    // update name
+    $("#gameName").text(MAP_STORE.name());
+
     var table = $('<table class ="table table-bordered" >');
     for (var x = 0; x < MAP_STORE.size(); x++){
         var tr = $("<tr>");
