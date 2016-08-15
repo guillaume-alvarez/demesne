@@ -18,6 +18,9 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
+    <!-- Font awesome -->
+    <script src="https://use.fontawesome.com/c173c8f9aa.js"></script>
+
     <link rel="stylesheet" href="{% static 'game/css/main.css' %}" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flux/2.1.1/Flux.js"></script>
@@ -54,6 +57,7 @@
     <!-- Set some values using django template to be used in JS code-->
     <script type="text/javascript">
         var AppDispatcher = new Flux.Dispatcher();
+        var staticUrl = "{% static 'game/' %}";
     </script>
 
     <script type="text/javascript" src="{% static 'game/js/tools/EventEmitter.js' %}"></script>
