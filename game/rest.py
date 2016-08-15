@@ -25,13 +25,13 @@ class TypeSerializer(serializers.ModelSerializer):
 
 
 # ViewSets define the view behavior.
-class GameViewset(viewsets.ReadOnlyModelViewSet):
+class GameViewset(viewsets.ModelViewSet):
     queryset = Game.objects.all()
     serializer_class = GameSerializer
     renderer_classes = (renderers.JSONRenderer, )
 
 
-class PlayerViewset(viewsets.ReadOnlyModelViewSet):
+class PlayerViewset(viewsets.ModelViewSet):
     queryset = Player.objects.all()
     serializer_class = PlayerSerializer
     renderer_classes = (renderers.JSONRenderer, )
