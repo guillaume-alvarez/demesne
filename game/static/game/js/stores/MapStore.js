@@ -5,6 +5,7 @@ function MapStore () {
     Store.call(this);
     this._nodes = new Array(0);
     this._size = 0;
+    this._name = null;
 };
 MapStore.prototype = Object.create(Store.prototype);
 MapStore.prototype.constructor = MapStore;
@@ -17,15 +18,41 @@ MapStore.prototype.size = function () {
     return this._size;
 };
 
+
+MapStore.prototype._init = function (size, name) {
+    this._name = name;
+    this._size = size;
+    this._nodes = new Array(size);
+    for (var i = 0; i < size; i++) {
+        this._nodes[i] = new Array(size);
+    }
+}
+
+
 MapStore.prototype.handle = function (event) {
+
     switch(event.actionType) {
         case Actions.ACTION_START_GAME:
-            MAP_STORE._size = event.playersNumber;
-            MAP_STORE._nodes = new Array(MAP_STORE._size);
-            for (var i = 0; i < MAP_STORE._size; i++) {
-                MAP_STORE._nodes[i] = new Array(MAP_STORE._size);
+            var size = event.playersNumber * 2;
+            MAP_STORE._init(size);
+            var data = {
+                name: 'some game at ' + Date.now(),
+                nb_players: event.playersNumber,
+                map_height: size,
+                map_width: size,
             }
+            Api.postData('games', data, Actions.ACTION_GET_GAME, {});
+            // then wait until answer to start the game, do not update the store now
+            return true;
+
+        case Actions.ACTION_GET_GAME:
+            if (event.error) {
+                console.log('Could not get GAME data: ' + event.error);
+                return true;
+            }
+            MAP_STORE._init(event.response.map_height, event.response.name);
             break;
+
         default:
             return true;
     }
