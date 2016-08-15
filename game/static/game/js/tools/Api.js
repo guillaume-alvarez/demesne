@@ -12,13 +12,19 @@ function abortPendingRequests(key) {
 }
 
 function makeUrl(type, id) {
-    var url = API_URL + type;
-    if (id) url += '/' + id + '/';
+    var url = API_URL + type + '/';
+    if (id) url += id + '/';
     return url;
 }
 
-function dispatch(action, response, params) {
+function dispatchSuccess(action, response, params) {
     var payload = {actionType: action, response: response.body};
+    if (params) payload.queryParams = params;
+    AppDispatcher.dispatch(payload);
+}
+
+function dispatchError(action, reason, params) {
+    var payload = {actionType: action, error: reason};
     if (params) payload.queryParams = params;
     AppDispatcher.dispatch(payload);
 }
@@ -27,13 +33,15 @@ function dispatch(action, response, params) {
 function makeDigestFun(action, params) {
     return function (err, res) {
         if (err && err.timeout === TIMEOUT) {
-            dispatch(action, 'TIMEOUT', params);
-        } else if (res.status === 400) {
-            dispatch(action, 'LOGOUT', params);
+            dispatchError(action, 'TIMEOUT', params);
         } else if (!res.ok) {
-            dispatch(action, 'ERROR', params);
+            if (res.text) {
+                dispatchError(action, 'ERROR: ' + res.text, params);
+            } else {
+                dispatchError(action, 'ERROR: ' + res.status, params);
+            }
         } else {
-            dispatch(action, res, params);
+            dispatchSuccess(action, res, params);
         }
     };
 }
@@ -48,11 +56,29 @@ function get(url) {
         .query();
 }
 
+function post(url, data) {
+    return superagent
+        .post(url)
+        .send(data)
+        .set('Accept', 'application/json')
+        .set('Accept-Encoding', 'gzip, deflate')
+        .timeout(TIMEOUT)
+        .query();
+}
+
 var Api = {
     getData: function(type, id, action, params) {
         var url = makeUrl(type, id);
         abortPendingRequests(url);
         _pendingRequests[url] = get(url).end(
+            makeDigestFun(action, params)
+        );
+    },
+
+    postData: function(type, data, action, params) {
+        var url = makeUrl(type, null);
+        abortPendingRequests(url);
+        _pendingRequests[url] = post(url, data).end(
             makeDigestFun(action, params)
         );
     }
