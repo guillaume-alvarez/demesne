@@ -29,12 +29,15 @@ class Node(models.Model):
 
 
 class Type(models.Model):
-    name = models.CharField(max_length=128)
-    description = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, db_index=True, unique=True)
+    slug = models.SlugField(max_length=128, db_index=True, unique=True)
+    description = models.CharField(max_length=128, null=True)
+    cost = models.IntegerField()
     add_slot = models.IntegerField(default=0)
     add_gold = models.IntegerField(default=0)
     add_buy = models.IntegerField(default=0)
-    special_effects = models.CharField(max_length=128)
+    add_move = models.IntegerField(default=0)
+    special_effects = models.CharField(max_length=128, null=True)
 
     def __str__(self):
         return self.name

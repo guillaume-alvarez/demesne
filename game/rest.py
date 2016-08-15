@@ -39,6 +39,7 @@ class PlayerViewset(viewsets.ReadOnlyModelViewSet):
 
 class TypeViewset(viewsets.ReadOnlyModelViewSet):
     queryset = Type.objects.all()
+    lookup_field = 'slug'
     serializer_class = TypeSerializer
     renderer_classes = (renderers.JSONRenderer, )
 
