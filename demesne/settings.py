@@ -41,6 +41,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # non-core django modules
+    'rest_framework',
 ]
 
 MIDDLEWARE_CLASSES = [

@@ -31,6 +31,10 @@ class Node(models.Model):
 class Type(models.Model):
     name = models.CharField(max_length=128)
     description = models.CharField(max_length=128)
+    add_slot = models.IntegerField(default=0)
+    add_gold = models.IntegerField(default=0)
+    add_buy = models.IntegerField(default=0)
+    special_effects = models.CharField(max_length=128)
 
     def __str__(self):
         return self.name
