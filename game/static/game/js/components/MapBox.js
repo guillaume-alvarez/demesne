@@ -8,11 +8,11 @@ function mapChanged(event) {
         for (var y = 0; y < MAP_STORE.size(); y++){
             var td = $('<td>');
             var node = MAP_STORE.node(x, y);
-            var text = node ? node : 'empty';
-            td.text(text);
+            var text = node ? node : '<div class="node">empty</div>';
+            td.html(text);
             tr.append(td);
             // add popover
-            td.attr("title",text);
+            td.attr("title",node?node.title:'Empty tile');
             td.popover({
                 toggle:"popover",
                 trigger:"hover",
