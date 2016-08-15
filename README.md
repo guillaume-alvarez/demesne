@@ -1,3 +1,5 @@
+# Installation
+
 Download from github then...
 
 Make sure Python 3.5 is installed
@@ -10,11 +12,16 @@ Load python requirements:
 
 Create local DB:
 
-```python manage.py migrate```
+```
+python manage.py migrate
+python manage.py default_types
+```
 
 Start server:
 
 ```python manage.py runserver```
+
+# Development
 
 After modifying the models, you will need to update the migration scripts and DB instance:
 
