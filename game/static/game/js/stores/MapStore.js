@@ -45,11 +45,11 @@ MapStore.prototype.handle = function (event) {
                 map_height: size,
                 map_width: size,
             }
-            Api.postData('games', data, Actions.ACTION_GET_GAME, {});
+            Api.postData('games', data, Actions.ACTION_LOADED_GAME, {});
             // then wait until answer to start the game, do not update the store now
             return true;
 
-        case Actions.ACTION_GET_GAME:
+        case Actions.ACTION_LOADED_GAME:
             if (event.error) {
                 console.log('Could not get GAME data: ' + event.error);
                 return true;

@@ -26,6 +26,14 @@ function mapChanged(event) {
                 placement:"bottom",
                 html:true
             });
+
+            // let select a type for free nodes
+            if (!node) {
+                td.click(function(){
+                    console.log('Ask type to set for node at (%d, %d)', x, y);
+                    Actions.askType();
+                });
+            }
         }
         table.append(tr);
     }

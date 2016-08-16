@@ -19,3 +19,18 @@
   border: 2px solid gray;
   margin: auto;
 }
+
+.type {
+  height: auto;
+  width: auto;
+  max-width: 100px;
+  max-height: 154px;
+  border: 2px solid gray;
+  margin: auto;
+}
+
+/* Prevent images from going outside the div! */
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
