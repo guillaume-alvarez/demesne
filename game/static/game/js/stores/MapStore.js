@@ -40,7 +40,7 @@ MapStore.prototype.handle = function (event) {
             var size = event.playersNumber * 2;
             MAP_STORE._init(size);
             var data = {
-                name: 'some game at ' + Date.now(),
+                name: event.name,
                 nb_players: event.playersNumber,
                 map_height: size,
                 map_width: size,
