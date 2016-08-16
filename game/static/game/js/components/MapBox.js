@@ -46,8 +46,8 @@ function formatInfo(node){
     if(node){
         var info = "<strong>"+(node.add_slot >0?"+"+node.add_slot+" SLOT<br>":"")
         +(node.add_gold >0?"+"+node.add_gold+" <i class='fa fa-money'></i><br>":"")
-        +(node.add_buy >0?"+"+node.add_buy+" BUY<br>":"")
-        +"<em>"+node.description+"</em>"
+        +(node.add_buy >0?"+"+node.add_buy+" BUY<br>":"");
+        if (node.description) info += "<em>"+node.description+"</em>"
     }else{
         var info = "<em>This tile is free and does nothing.</em>";
     }
