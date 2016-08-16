@@ -3,7 +3,15 @@
  */
 
 function typeChanged(event) {
-    if (!TYPES_STORE.asked()) return false;
+    var asked = TYPES_STORE.asked();
+    if (!asked) return false;
+
+    function onclick(type) {
+        return function() {
+            console.log('Selected type %s for node at (%d, %d)', type, asked.x, asked.y);
+            Actions.selectType(asked.x, asked.y, type);
+        };
+    }
 
     var names = TYPES_STORE.names();
 
@@ -25,6 +33,7 @@ function typeChanged(event) {
             placement:"bottom",
             html:true
         });
+        td.click(onclick(names[i]));
 
         tr.append(td);
     }

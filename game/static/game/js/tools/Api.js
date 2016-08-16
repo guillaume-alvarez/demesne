@@ -75,8 +75,16 @@ var Api = {
         );
     },
 
-    postData: function(type, data, action, params) {
+    createData: function(type, data, action, params) {
         var url = makeUrl(type, null);
+        abortPendingRequests(url);
+        _pendingRequests[url] = post(url, data).end(
+            makeDigestFun(action, params)
+        );
+    },
+
+    updateData: function(type, id, data, action, params) {
+        var url = makeUrl(type, id);
         abortPendingRequests(url);
         _pendingRequests[url] = post(url, data).end(
             makeDigestFun(action, params)

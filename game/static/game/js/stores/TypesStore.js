@@ -4,13 +4,13 @@
 function TypesStore () {
     Store.call(this);
     this._types = {};
-    this._asked = false;
+    this._askedNode = null;
 };
 TypesStore.prototype = Object.create(Store.prototype);
 TypesStore.prototype.constructor = TypesStore;
 
 TypesStore.prototype.asked = function () {
-    return this._asked;
+    return this._askedNode;
 };
 
 TypesStore.prototype.names = function () {
@@ -24,7 +24,7 @@ TypesStore.prototype.type = function (name) {
 TypesStore.prototype.handle = function (event) {
     switch(event.actionType) {
         case Actions.ACTION_START_GAME:
-            TYPES_STORE._asked = false;
+            TYPES_STORE._askedNode = null;
             TYPES_STORE._types = {};
             // always try to load at game start
             Api.getData('types', null, Actions.ACTION_LOADED_TYPES, {});
@@ -40,7 +40,7 @@ TypesStore.prototype.handle = function (event) {
 
         case Actions.ACTION_ASK_TYPES:
             // user need the list of types, make sure it is up-to-date
-            TYPES_STORE._asked = true;
+            TYPES_STORE._askedNode = {x:event.x, y:event.y};
             if (jQuery.isEmptyObject(TYPES_STORE._types)) {
                 // loop once found
                 Api.getData('types', null, Actions.ACTION_LOADED_TYPES, {});
@@ -48,7 +48,12 @@ TypesStore.prototype.handle = function (event) {
             } // else we have data: emit change
             break;
 
+        case Actions.ACTION_SELECT_TYPE:
+            TYPES_STORE._askedNode = null;
+            break;
+
         default:
+            // ignore by default
             return true;
     }
     TYPES_STORE.emitChange();

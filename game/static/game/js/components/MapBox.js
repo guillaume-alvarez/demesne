@@ -5,12 +5,20 @@ function mapChanged(event) {
     // update name
     $("#gameName").text(MAP_STORE.name());
 
+    function onclick(x, y) {
+        return function() {
+            console.log('Ask type to set for node at (%d, %d)', x, y);
+            Actions.askType(x, y);
+        };
+    }
+
     var table = $('<table class ="table table-bordered" >');
     for (var x = 0; x < MAP_STORE.size(); x++){
         var tr = $("<tr>");
         for (var y = 0; y < MAP_STORE.size(); y++){
             var td = $('<td>');
-            var node = MAP_STORE.node(x, y);
+            var places = MAP_STORE.node(x, y).places;
+            var node = places ? places[0] : null;
             var text = node ?
                 '<div class="node"><img src="'+window.staticUrl+'img/'+node.slug+'.jpg"></div>'
                 : '<div class="node">empty</div>';
@@ -28,12 +36,7 @@ function mapChanged(event) {
             });
 
             // let select a type for free nodes
-            if (!node) {
-                td.click(function(){
-                    console.log('Ask type to set for node at (%d, %d)', x, y);
-                    Actions.askType();
-                });
-            }
+            if (!node) td.click(onclick(x, y));
         }
         table.append(tr);
     }
@@ -42,12 +45,12 @@ function mapChanged(event) {
     map.append(table);
 }
 
-function formatInfo(node){
-    if(node){
-        var info = "<strong>"+(node.add_slot >0?"+"+node.add_slot+" SLOT<br>":"")
-        +(node.add_gold >0?"+"+node.add_gold+" <i class='fa fa-money'></i><br>":"")
-        +(node.add_buy >0?"+"+node.add_buy+" BUY<br>":"");
-        if (node.description) info += "<em>"+node.description+"</em>"
+function formatInfo(type){
+    if(type){
+        var info = "<strong>"+(type.add_slot >0?"+"+type.add_slot+" SLOT<br>":"")
+        +(type.add_gold >0?"+"+type.add_gold+" <i class='fa fa-money'></i><br>":"")
+        +(type.add_buy >0?"+"+type.add_buy+" BUY<br>":"");
+        if (type.description) info += "<em>"+type.description+"</em>"
     }else{
         var info = "<em>This tile is free and does nothing.</em>";
     }
