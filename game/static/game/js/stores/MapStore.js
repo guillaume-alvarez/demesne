@@ -74,7 +74,7 @@ MapStore.prototype.handle = function (event) {
                 console.log('Could not update node: ' + event.error);
                 return true;
             }
-            MAP_STORE._nodes[event.x][event.y] = event.response;
+            MAP_STORE._nodes[event.response.x][event.response.y] = event.response;
             break;
 
         default:

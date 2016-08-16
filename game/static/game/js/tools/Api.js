@@ -66,6 +66,16 @@ function post(url, data) {
         .query();
 }
 
+function patch(url, data) {
+    return superagent
+        .patch(url)
+        .send(data)
+        .set('Accept', 'application/json')
+        .set('Accept-Encoding', 'gzip, deflate')
+        .timeout(TIMEOUT)
+        .query();
+}
+
 var Api = {
     getData: function(type, id, action, params) {
         var url = makeUrl(type, id);
@@ -86,7 +96,7 @@ var Api = {
     updateData: function(type, id, data, action, params) {
         var url = makeUrl(type, id);
         abortPendingRequests(url);
-        _pendingRequests[url] = post(url, data).end(
+        _pendingRequests[url] = patch(url, data).end(
             makeDigestFun(action, params)
         );
     }

@@ -4,7 +4,10 @@
 
 function typeChanged(event) {
     var asked = TYPES_STORE.asked();
-    if (!asked) return false;
+    if (!asked) {
+        $('#modal-box').modal('hide');
+        return false;
+    }
 
     function onclick(type) {
         return function() {
@@ -43,7 +46,7 @@ function typeChanged(event) {
     $("#modal-title").text('Which type do you want to use?');
 
     // can let user choose
-    $('#modal-box').modal('show')
+    $('#modal-box').modal('show');
 }
 
 TYPES_STORE.addListener(typeChanged);
