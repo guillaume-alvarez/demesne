@@ -1,7 +1,10 @@
 from django.conf.urls import url, include
 from django.contrib.auth.models import User
-from rest_framework import routers, serializers, viewsets, renderers
+from rest_framework import routers, serializers, viewsets, renderers, status
 from rest_framework.response import Response
+from rest_framework.decorators import detail_route
+
+from . import rules
 
 from .models import Game, Player, Type, Node
 
@@ -69,10 +72,22 @@ class TypeViewset(viewsets.ReadOnlyModelViewSet):
     renderer_classes = (renderers.JSONRenderer, )
 
 
-class NodeViewset(viewsets.ModelViewSet):
+class NodeViewset(viewsets.ReadOnlyModelViewSet):
     queryset = Node.objects.all()
     serializer_class = NodeSerializer
     renderer_classes = (renderers.JSONRenderer, )
+
+    @detail_route(methods=['post'])
+    def add_type(self, request, pk=None):
+        node = self.get_object()
+        type = Type.objects.get(slug=request.data['type'])
+        try:
+            rules.add_type(node, type)
+            serializer = self.get_serializer(node)
+            return Response(serializer.data)
+        except rules.RuleIssue as e:
+            return Response({'rule': e.rule, 'text': e.message},
+                            status=status.HTTP_400_BAD_REQUEST)
 
 
 # Routers provide an easy way of automatically determining the URL conf.

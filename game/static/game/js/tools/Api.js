@@ -37,6 +37,8 @@ function makeDigestFun(action, params) {
         } else if (!res.ok) {
             if (res.text) {
                 dispatchError(action, 'ERROR: ' + res.text, params);
+            } else if (res.error) {
+                dispatchError(action, 'ERROR: ' + res.error, params);
             } else {
                 dispatchError(action, 'ERROR: ' + res.status, params);
             }
@@ -96,7 +98,7 @@ var Api = {
     updateData: function(type, id, data, action, params) {
         var url = makeUrl(type, id);
         abortPendingRequests(url);
-        _pendingRequests[url] = patch(url, data).end(
+        _pendingRequests[url] = post(url, data).end(
             makeDigestFun(action, params)
         );
     }
