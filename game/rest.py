@@ -10,8 +10,14 @@ from .models import Game, Player, Type, Node
 
 
 # Serializers define the API representation.
+class TypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Type
+        fields = '__all__'
+
+
 class NodeSerializer(serializers.ModelSerializer):
-    partial = True
+    places = TypeSerializer(many=True, read_only=True)
 
     class Meta:
         model = Node
@@ -30,12 +36,6 @@ class GameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Game
-        fields = '__all__'
-
-
-class TypeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Type
         fields = '__all__'
 
 
