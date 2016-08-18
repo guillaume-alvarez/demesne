@@ -46,17 +46,8 @@ class GameViewset(viewsets.ModelViewSet):
     renderer_classes = (renderers.JSONRenderer, )
 
     def perform_create(self, serializer):
-        '''At creation make sure we declare all the nodes.'''
         game = serializer.save()
-        players = []
-        for p in range(game.nb_players):
-            players.append(Player(name=game.name+'/'+str(p), game=game))
-        Player.objects.bulk_create(players)
-        nodes = []
-        for x in range(game.map_width):
-            for y in range(game.map_height):
-                nodes.append(Node(game=game, x=x, y=y))
-        Node.objects.bulk_create(nodes)
+        rules.create_game(game)
 
 
 class PlayerViewset(viewsets.ModelViewSet):
