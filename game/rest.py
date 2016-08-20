@@ -72,8 +72,9 @@ class NodeViewset(viewsets.ReadOnlyModelViewSet):
     def add_type(self, request, pk=None):
         node = self.get_object()
         type = Type.objects.get(slug=request.data['type'])
+        player = Player.objects.get(id=request.data['player'])
         try:
-            rules.add_type(node, type)
+            rules.add_type(player, node, type)
             serializer = self.get_serializer(node)
             return Response(serializer.data)
         except rules.RuleIssue as e:
