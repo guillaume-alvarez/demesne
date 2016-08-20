@@ -31,6 +31,8 @@ class Game(models.Model):
 class Player(models.Model):
     name = models.CharField(max_length=128, db_index=True, unique=True)
     game = models.ForeignKey(Game)
+    gold = models.IntegerField(default=0)
+    points = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
