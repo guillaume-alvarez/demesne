@@ -48,8 +48,11 @@
             </div>
             <div class="panel-body" id="map"></div>
         </div>
-
     </div>
+
+    <footer class="status">
+        <p class="text-muted" id="game-status">Still in progress...</p>
+    </footer>
 
     <div class="modal fade" tabindex="-1" role="dialog" id="modal-box">
       <div class="modal-dialog" role="document">
@@ -76,17 +79,15 @@
     <script type="text/javascript" src="{% static 'game/js/tools/Api.js' %}"></script>
     <script type="text/javascript" src="{% static 'game/js/Actions.js' %}"></script>
     <script type="text/javascript" src="{% static 'game/js/stores/Store.js' %}"></script>
+    <script type="text/javascript" src="{% static 'game/js/stores/StatusStore.js' %}"></script>
     <script type="text/javascript" src="{% static 'game/js/stores/PlayersStore.js' %}"></script>
     <script type="text/javascript" src="{% static 'game/js/stores/MapStore.js' %}"></script>
     <script type="text/javascript" src="{% static 'game/js/stores/TypesStore.js' %}"></script>
+    <script type="text/javascript" src="{% static 'game/js/components/StatusBox.js' %}"></script>
     <script type="text/javascript" src="{% static 'game/js/components/PlayersBox.js' %}"></script>
     <script type="text/javascript" src="{% static 'game/js/components/MapBox.js' %}"></script>
     <script type="text/javascript" src="{% static 'game/js/components/TypeChooser.js' %}"></script>
 
 </body>
-
-<footer class="status">
-    <p class="text-muted">Still in progress...</p>
-</footer>
 
 </html>

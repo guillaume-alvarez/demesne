@@ -1,5 +1,5 @@
 /**
- * Creates and stores the map data.
+ * Creates and stores the player data.
  */
 function PlayersStore () {
     Store.call(this);
