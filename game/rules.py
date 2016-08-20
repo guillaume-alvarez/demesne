@@ -13,7 +13,7 @@ class RuleIssue(Exception):
 def create_game(game):
     players = []
     for p in range(game.nb_players):
-        players.append(Player(name=game.name+'/'+str(p), game=game))
+        players.append(Player(name='Player%d/%d' % (game.id, p), game=game))
     Player.objects.bulk_create(players)
     nodes = []
     for x in range(game.map_width):

@@ -34,11 +34,11 @@
     <h1 class="text-center"> Demesne <small>a kingdom building game</small> </h1>
 </div>
     <div class="col-md-2">
-        <div class="panel panel-info">
+        <div class="panel panel-primary">
             <div class="panel-heading">
-                <div class="panel-title">Player information</div>
+                <div class="panel-title">Players...</div>
             </div>
-            <div class="panel-body" id="player"> HE HEE</div>
+            <div class="panel-body" id="players"></div>
         </div>
     </div>
     <div class="col-md-10">
@@ -79,8 +79,10 @@
     <script type="text/javascript" src="{% static 'game/js/tools/Api.js' %}"></script>
     <script type="text/javascript" src="{% static 'game/js/Actions.js' %}"></script>
     <script type="text/javascript" src="{% static 'game/js/stores/Store.js' %}"></script>
+    <script type="text/javascript" src="{% static 'game/js/stores/PlayersStore.js' %}"></script>
     <script type="text/javascript" src="{% static 'game/js/stores/MapStore.js' %}"></script>
     <script type="text/javascript" src="{% static 'game/js/stores/TypesStore.js' %}"></script>
+    <script type="text/javascript" src="{% static 'game/js/components/PlayersBox.js' %}"></script>
     <script type="text/javascript" src="{% static 'game/js/components/MapBox.js' %}"></script>
     <script type="text/javascript" src="{% static 'game/js/components/TypeChooser.js' %}"></script>
 
