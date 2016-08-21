@@ -24,7 +24,7 @@ function typeChanged(event) {
         var td = $('<td>');
         var type = TYPES_STORE.type(names[i]);
         var text = '<div class="type"><img src="'+window.staticUrl+'img/'+type.slug+'.jpg"></div>';
-        td.html(text);
+        td.html(text + "<p>"+type.cost+"&nbsp;<i class='fa fa-money'></i></p>");
 
         // add popover
         td.attr("title",type.name);

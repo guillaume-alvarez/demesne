@@ -47,7 +47,9 @@ function mapChanged(event) {
 
 function formatInfo(type){
     if(type){
-        var info = "<strong>"+(type.add_slot >0?"+"+type.add_slot+" SLOT<br>":"")
+        var info = "<strong>"
+        +"costs "+type.cost+" <i class='fa fa-money'></i><br>"
+        +(type.add_slot >0?"+"+type.add_slot+" SLOT<br>":"")
         +(type.add_gold >0?"+"+type.add_gold+" <i class='fa fa-money'></i><br>":"")
         +(type.add_buy >0?"+"+type.add_buy+" BUY<br>":"");
         if (type.description) info += "<em>"+type.description+"</em>"
