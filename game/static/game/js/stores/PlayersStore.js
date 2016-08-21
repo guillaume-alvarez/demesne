@@ -41,6 +41,12 @@ PlayersStore.prototype.handle = function (event) {
             }
             break;
 
+        case Actions.ACTION_UPDATED_NODE:
+            // we also receive the player state in the node
+            var player = event.response.player;
+            PLAYERS_STORE._players[player.id] = player;
+            break;
+
         default:
             // ignore by default
             return true;
