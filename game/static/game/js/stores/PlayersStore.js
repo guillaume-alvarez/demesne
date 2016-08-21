@@ -37,7 +37,7 @@ PlayersStore.prototype.handle = function (event) {
                 console.log('Loading player: '+JSON.stringify(player))
                 PLAYERS_STORE._players[player.id] = player;
                 // at the moment have a default active player... should be managed on server side
-                if (!PLAYERS_STORE._active) PLAYERS_STORE._active = player.id;
+                PLAYERS_STORE._active = event.response.current_player;
             }
             break;
 
@@ -45,6 +45,7 @@ PlayersStore.prototype.handle = function (event) {
             // we also receive the player state in the node
             var player = event.response.player;
             PLAYERS_STORE._players[player.id] = player;
+            if (player.active) PLAYERS_STORE._active = player.id;
             break;
 
         default:

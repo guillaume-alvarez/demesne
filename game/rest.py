@@ -17,9 +17,14 @@ class TypeSerializer(serializers.ModelSerializer):
 
 
 class PlayerSerializer(serializers.ModelSerializer):
+    active = serializers.SerializerMethodField()
+
     class Meta:
         model = Player
         fields = '__all__'
+
+    def get_active (self, obj):
+        return obj.game.current_player == obj
 
 
 class NodeSerializer(serializers.ModelSerializer):
