@@ -35,12 +35,14 @@ function makeDigestFun(action, params) {
         if (err && err.timeout === TIMEOUT) {
             dispatchError(action, 'TIMEOUT', params);
         } else if (!res.ok) {
-            if (res.text) {
-                dispatchError(action, 'ERROR: ' + res.text, params);
+            if (res.body) {
+                dispatchError(action, res.body, params);
+            } else if (res.text) {
+                dispatchError(action, res.text, params);
             } else if (res.error) {
-                dispatchError(action, 'ERROR: ' + res.error, params);
+                dispatchError(action, res.error, params);
             } else {
-                dispatchError(action, 'ERROR: ' + res.status, params);
+                dispatchError(action, {status: res.status}, params);
             }
         } else {
             dispatchSuccess(action, res, params);

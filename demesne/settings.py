@@ -161,3 +161,8 @@ LOGGING = {
         },
     },
 }
+
+
+REST_FRAMEWORK = {
+    'EXCEPTION_HANDLER': 'game.rest.custom_exception_handler'
+}

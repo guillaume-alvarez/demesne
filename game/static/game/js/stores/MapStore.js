@@ -32,7 +32,6 @@ MapStore.prototype._init = function (size, name) {
     }
 }
 
-
 MapStore.prototype.handle = function (event) {
 
     switch(event.actionType) {
@@ -72,7 +71,7 @@ MapStore.prototype.handle = function (event) {
 
         case Actions.ACTION_UPDATED_NODE:
             if (event.error) {
-                console.log('Could not update node: ' + event.error);
+                console.log('Could not update node: ' + JSON.stringify(event.error));
                 return true;
             }
             MAP_STORE._nodes[event.response.x][event.response.y] = event.response;

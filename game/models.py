@@ -45,3 +45,20 @@ class Node(models.Model):
     y = models.IntegerField()
     places = models.ManyToManyField(Type)
 
+    def __str__(self):
+        return '(%d, %d)' % (self.x, self.y)
+
+    neighbours_delta = [(x, y) for x in range(-1, 1) for y in range(-1, 1)]
+    neighbours_delta.remove((0, 0))
+
+    def neighbours(self):
+        """
+        :return: yields the neighbours for this node
+        """
+        # use yield to reduce the number of requests
+        for (dx, dy) in Node.neighbours_delta:
+            nx = dx + self.x
+            ny = dy + self.y
+            if 0 <= nx <= self.game.map_width and 0 <= ny <= self.game.map_height:
+                yield Node.objects.get(game_id=self.game_id, x=nx, y=ny)
+

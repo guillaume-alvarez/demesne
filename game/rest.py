@@ -1,11 +1,11 @@
 from django.conf.urls import url, include
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets, renderers, status
+from rest_framework.views import exception_handler
 from rest_framework.response import Response
 from rest_framework.decorators import detail_route
 
 from . import rules
-
 from .models import Game, Player, Type, Node
 
 
@@ -73,13 +73,20 @@ class NodeViewset(viewsets.ReadOnlyModelViewSet):
         node = self.get_object()
         type = Type.objects.get(slug=request.data['type'])
         player = Player.objects.get(id=request.data['player'])
-        try:
-            rules.add_type(player, node, type)
-            serializer = self.get_serializer(node)
-            return Response(serializer.data)
-        except rules.RuleIssue as e:
-            return Response({'rule': e.rule, 'text': e.message},
-                            status=status.HTTP_400_BAD_REQUEST)
+        rules.add_type(player, node, type)
+        serializer = self.get_serializer(node)
+        return Response(serializer.data)
+
+
+def custom_exception_handler(exc, context):
+    # Now add the specific information to the response
+    if isinstance(exc, rules.RuleIssue):
+        import json
+        return Response(data={'rule': exc.rule, 'text':exc.message},
+                        status=status.HTTP_400_BAD_REQUEST)
+
+    # else all REST framework's default exception handler to get the standard error response.
+    return exception_handler(exc, context)
 
 
 # Routers provide an easy way of automatically determining the URL conf.
