@@ -22,6 +22,15 @@
   padding: 2px;
 }
 
+.multiple {
+    border-left: grey 3px solid;
+    border-bottom: grey 3px solid;
+    border-right: white 3px solid;
+    border-top: white 3px solid;
+    border-top-left-radius: 2px;
+    padding: 0px 0px 1px 1px;
+}
+
 .type {
   height: auto;
   width: auto;

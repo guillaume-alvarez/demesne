@@ -49,14 +49,14 @@ def add_type(player, node, type):
         node.player = player;
     else:
         # check it is the correct player
-        if node.player is not player:
+        if node.player != player:
             raise RuleIssue('A player cannot add a building to a node owned by another player.', 'Node belongs to %s' % node.player)
         # count the number of available slots
         available = 1
         for type in node.places.all():
             available += type.add_slot - 1
         if available < 1:
-            raise RuleIssue('There must be an empty slot on a node to add a building.', 'Already placed: %s' % type.places)
+            raise RuleIssue('There must be an empty slot on a node to add a building.', 'Already placed: %s' % node.places)
         node.places.add(type)
 
     # if it goes here the node was modified

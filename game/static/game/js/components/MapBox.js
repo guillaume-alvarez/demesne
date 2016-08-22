@@ -19,18 +19,20 @@ function mapChanged(event) {
             var td = $('<td>');
             var places = MAP_STORE.node(x, y).places;
             var node = places ? places[0] : null;
+            var nodeClasses = "node "+((places && places.length > 1)?"multiple":"");
             var text = node ?
-                '<div class="node"><img src="'+window.staticUrl+'img/'+node.slug+'.jpg"></div>'
+                '<div class="'+nodeClasses+'"><img src="'+window.staticUrl+'img/'+node.slug+'.jpg"></div>'
                 : '<div class="node">empty</div>';
             td.html(text);
             tr.append(td);
             // add popover
-            td.attr("title",node?node.name:'Empty tile');
+            var title = node?((places && places.length > 1) ?'Multiple cards':node.name):'Empty tile';
+            td.attr("title",title);
             td.popover({
                 toggle:"popover",
                 trigger:"hover",
                 container:"body",
-                content:formatInfo(node),
+                content:formatInfo(node,places),
                 placement:"bottom",
                 html:true
             });
@@ -45,14 +47,26 @@ function mapChanged(event) {
     map.append(table);
 }
 
-function formatInfo(type){
+function formatInfo(type,places){
     if(type){
-        var info = "<strong>"
-        +"costs "+type.cost+" <i class='fa fa-money'></i><br>"
-        +(type.add_slot >0?"+"+type.add_slot+" SLOT<br>":"")
-        +(type.add_gold >0?"+"+type.add_gold+" <i class='fa fa-money'></i><br>":"")
-        +(type.add_buy >0?"+"+type.add_buy+" BUY<br>":"");
-        if (type.description) info += "<em>"+type.description+"</em>"
+        if(places && places.length > 1){
+            var info;
+            // on concatène l'affichage de chaque carte en rappelant la méthode avec un tableau de 1
+            $.each(places,function(index,p){
+                info = "<div class='place-description'>";
+                info = info + formatInfo(p,[p]);
+                info = info + "</div>";
+            });
+        }else if(places && places.length == 1){
+            var info = "<strong>"
+            +"costs "+type.cost+" <i class='fa fa-money'></i><br>"
+            +(type.add_slot >0?"+"+type.add_slot+" SLOT<br>":"")
+            +(type.add_gold >0?"+"+type.add_gold+" <i class='fa fa-money'></i><br>":"")
+            +(type.add_buy >0?"+"+type.add_buy+" BUY<br>":"");
+            if (type.description) info += "<em>"+type.description+"</em>";
+        }else{
+            var info = "<em>This tile is free and does nothing.</em>";
+        }
     }else{
         var info = "<em>This tile is free and does nothing.</em>";
     }
