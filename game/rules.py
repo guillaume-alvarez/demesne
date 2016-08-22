@@ -53,8 +53,8 @@ def add_type(player, node, type):
             raise RuleIssue('A player cannot add a building to a node owned by another player.', 'Node belongs to %s' % node.player)
         # count the number of available slots
         available = 1
-        for type in node.places.all():
-            available += type.add_slot - 1
+        for p in node.places.all():
+            available += p.add_slot - 1
         if available < 1:
             raise RuleIssue('There must be an empty slot on a node to add a building.', 'Already placed: %s' % node.places)
         node.places.add(type)
