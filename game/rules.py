@@ -26,17 +26,6 @@ def create_game(game):
 
 
 def add_type(player, node, type):
-    # check the building is near a player node, if player already has one
-    if player.node_set.exists():
-        has_neighbour = False
-        for neighbour in node.neighbours():
-            if neighbour.player == player:
-                has_neighbour = True
-                break
-        if not has_neighbour:
-            raise RuleIssue('New nodes must be contiguous to at least another one from the player.',
-                            'No neighbour owned by %s for %s' % (player, node))
-
     # check player can buy the building
     if player.gold < type.cost:
         raise RuleIssue('The player must have enough gold to cover the cost for the new buildings.',
@@ -44,6 +33,17 @@ def add_type(player, node, type):
 
     # check there is slot for the building on the node
     if not node.player:
+        # check the building is near a player node, if player already has one
+        if player.node_set.exists():
+            has_neighbour = False
+            for neighbour in node.neighbours():
+                if neighbour.player == player:
+                    has_neighbour = True
+                    break
+            if not has_neighbour:
+                raise RuleIssue('New nodes must be contiguous to at least another one from the player.',
+                                'No neighbour owned by %s for %s' % (player, node))
+
         # always possible to add a card to an empty node
         node.places.add(type)
         node.player = player;
