@@ -23,6 +23,8 @@ class Game(models.Model):
     nb_players = models.IntegerField()
     map_height = models.IntegerField()
     map_width = models.IntegerField()
+    # need the name as it is not yet defined, do not need the reverse mapping
+    current_player = models.ForeignKey('Player', related_name='+', null=True)
 
     def __str__(self):
         return self.name

@@ -11,10 +11,13 @@ class RuleIssue(Exception):
 
 
 def create_game(game):
+    # init players
     players = []
     for p in range(game.nb_players):
         players.append(Player(name='Player%d/%d' % (game.id, p), game=game, gold=7, points=3))
     Player.objects.bulk_create(players)
+    game.current_player = Player.objects.get(name='Player%d/0' % game.id)
+    # init map (i.e. nodes to play cards on)
     nodes = []
     for x in range(game.map_width):
         for y in range(game.map_height):
@@ -37,7 +40,7 @@ def add_type(player, node, type):
     # check player can buy the building
     if player.gold < type.cost:
         raise RuleIssue('The player must have enough gold to cover the cost for the new buildings.',
-                        '%(name)s costs %(cost)s' % type)
+                        '%s costs %s' % (type.name, type.cost))
 
     # check there is slot for the building on the node
     if not node.player:
@@ -55,5 +58,8 @@ def add_type(player, node, type):
         if available < 1:
             raise RuleIssue('There must be an empty slot on a node to add a building.', 'Already placed: %s' % type.places)
         node.places.add(type)
+
     # if it goes here the node was modified
+    player.gold -= type.cost
+    player.save()
     node.save()
