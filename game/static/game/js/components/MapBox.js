@@ -19,6 +19,8 @@ function mapChanged(event) {
             var td = $('<td>');
             var places = MAP_STORE.node(x, y).places;
             var node = places ? places[0] : null;
+
+
             var nodeClasses = "node "+((places && places.length > 1)?"multiple":"");
             var text = node ?
                 '<div class="'+nodeClasses+'"><img src="'+window.staticUrl+'img/'+node.slug+'.jpg"></div>'
@@ -36,6 +38,17 @@ function mapChanged(event) {
                 placement:"bottom",
                 html:true
             });
+
+            // calculate slots
+            var slotsRemaining = 1;
+            var maxSlots = 1;
+            if(places){
+                $.each(places,function(index,type){
+                    maxSlots = maxSlots + type.add_slot;
+                    slotsRemaining = slotsRemaining - 1 + type.add_slot;
+                });
+            }
+            td.children(".node").append("<span class='bottom-right"+(slotsRemaining == 0?" no-more":"")+"'>"+slotsRemaining+"/"+maxSlots+"</span>");
 
             // let select a type for free nodes
             td.click(onclick(x, y));

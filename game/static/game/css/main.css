@@ -17,9 +17,23 @@
   max-width: 102px;
   height: 158px;
   max-height: 158px;
-  border: 2px solid gray;
   margin: auto;
   padding: 2px;
+  position: relative;
+}
+
+.bottom-right {
+    position: absolute;
+    right:    2px;
+    bottom:   0;
+    padding: 2px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #2a3b6f;
+}
+
+.no-more {
+    color: #990000;
 }
 
 .list-group {
