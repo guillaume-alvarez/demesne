@@ -17,5 +17,5 @@ def load_game(request, game_id):
     return render(request, 'game/game.html', context)
 
 def list_games(request):
-    context = {'game_list':get_list_or_404(Game)}
+    context = {'game_list':Game.objects.all()}
     return render(request,'game/games.html',context)
