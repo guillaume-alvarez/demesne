@@ -17,6 +17,7 @@ def create_game(game):
         players.append(Player(name='Player%d/%d' % (game.id, p), game=game, gold=7, points=3))
     Player.objects.bulk_create(players)
     game.current_player = Player.objects.get(name='Player%d/0' % game.id)
+    game.save()
     # init map (i.e. nodes to play cards on)
     nodes = []
     for x in range(game.map_width):
