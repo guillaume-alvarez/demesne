@@ -1,5 +1,5 @@
 
-from .models import Game, Player, Type, Node
+from .models import Game, Player, Type, Node, Place
 
 # contains the basic rules for the game, validating player actions
 
@@ -46,8 +46,8 @@ def add_type(player, node, type):
                                 'No neighbour owned by %s for %s' % (player, node))
 
         # always possible to add a card to an empty node
-        node.places.add(type)
-        node.player = player;
+        Place.objects.create(node=node, type=type)
+        node.player = player
     else:
         # check it is the correct player
         if node.player != player:
@@ -58,9 +58,16 @@ def add_type(player, node, type):
             available += p.add_slot - 1
         if available < 1:
             raise RuleIssue('There must be an empty slot on a node to add a building.', 'Already placed: %s' % node.places)
-        node.places.add(type)
+        Place.objects.create(node=node, type=type)
 
     # if it goes here the node was modified
     player.gold -= type.cost
     player.save()
     node.save()
+
+
+def end_turn(player):
+    # recompute victory points
+    # recompute gold
+    # set to next player
+    return

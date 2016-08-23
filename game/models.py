@@ -45,7 +45,7 @@ class Node(models.Model):
     player = models.ForeignKey(Player, null=True)
     x = models.IntegerField()
     y = models.IntegerField()
-    places = models.ManyToManyField(Type)
+    places = models.ManyToManyField(Type, through='Place')
 
     def __str__(self):
         return '(%d, %d)' % (self.x, self.y)
@@ -64,3 +64,8 @@ class Node(models.Model):
             if 0 <= nx <= self.game.map_width and 0 <= ny <= self.game.map_height:
                 yield Node.objects.get(game_id=self.game_id, x=nx, y=ny)
 
+
+class Place(models.Model):
+    node = models.ForeignKey(Node, on_delete=models.CASCADE)
+    type = models.ForeignKey(Type, on_delete=models.CASCADE)
+    active = models.BooleanField(default=True)
