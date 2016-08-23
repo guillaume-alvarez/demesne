@@ -22,6 +22,10 @@
   padding: 2px;
 }
 
+.list-group {
+  margin-top: 10px;
+}
+
 .multiple {
     border-left: grey 3px solid;
     border-bottom: grey 3px solid;

@@ -1,0 +1,19 @@
+{% extends "game/generic_headers.html" %}
+
+{% load static %}
+
+{% block content %}
+    <div class="col-md-12">
+        <button class="btn btn-success">CREATE A NEW GAME</button>
+        <div class="list-group">
+        {% for game in game_list %}
+            <a href="/games/{{ game.id }}" class="list-group-item">{{ game.name }}<span class="badge">ID {{ game.id }}</span></a>
+        {% endfor %}
+    </div>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+{% endblock %}

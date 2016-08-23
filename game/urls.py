@@ -6,5 +6,6 @@ urlpatterns = [
     url(r'^$', views.index),
     url(r'^games/(?P<game_id>[0-9]+)/$', views.load_game),
 
+    url(r'^games/$', views.list_games),
     url(r'^api/', include(rest.router.urls)),
 ]
