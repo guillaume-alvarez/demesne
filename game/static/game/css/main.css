@@ -44,6 +44,10 @@
   margin: auto;
 }
 
+.place-description {
+    display: block;
+}
+
 /* Prevent images from going outside the div! */
 img {
     max-width: 100%;

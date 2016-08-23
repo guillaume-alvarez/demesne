@@ -38,7 +38,7 @@ function mapChanged(event) {
             });
 
             // let select a type for free nodes
-            if (!node) td.click(onclick(x, y));
+            td.click(onclick(x, y));
         }
         table.append(tr);
     }
@@ -54,6 +54,7 @@ function formatType(type){
             +(type.add_gold >0?"<span class='gold'>+"+type.add_gold+" <i class='fa fa-money'></i></span><br>":"")
             +(type.add_buy >0?"<span class='buy'>+"+type.add_buy+" BUY</span><br>":"");
         if (type.description) info += "<em>"+type.description+"</em>";
+        info = info + "</strong>"
     }else{
         var info = "<em>This tile is free and does nothing.</em>";
     }
@@ -64,10 +65,11 @@ function formatType(type){
 function formatInfo(places){
 
         if(places && places.length > 1){
-            var info;
+            var info ="";
             // on concatène l'affichage de chaque carte en rappelant la méthode avec un tableau de 1
             $.each(places,function(index,type){
-                info = "<div class='place-description'>";
+                info = info + "<div class='place-description'>";
+                info = info + "<em>"+type.name+"</em><br>";
                 info = info + formatType(type);
                 info = info + "</div>";
             });
