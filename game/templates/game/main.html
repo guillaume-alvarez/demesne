@@ -1,38 +1,8 @@
-<!DOCTYPE html>
+{% extends "game/generic_headers.html" %}
+
 {% load static %}
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css" type="text/css" media="all" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.js" type="text/javascript"></script>
-
-    <!-- Bootstrap CSS -->
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-
-    <!-- Font awesome -->
-    <script src="https://use.fontawesome.com/c173c8f9aa.js"></script>
-
-    <link rel="stylesheet" href="{% static 'game/css/main.css' %}" />
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flux/2.1.1/Flux.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/superagent/1.2.0/superagent.js"></script>
-
-    <title>{% block title %}Demesne{% endblock %}</title>
-</head>
-
-<body>
-<div class="page-header">
-    <h1 class="text-center"> Demesne <small>a kingdom building game</small> </h1>
-</div>
+{% block content %}
     <div class="col-md-2">
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -50,9 +20,6 @@
         </div>
     </div>
 
-    <footer class="status">
-        <p class="text-muted" id="game-status">Still in progress...</p>
-    </footer>
 
     <div class="modal fade" tabindex="-1" role="dialog" id="modal-box">
       <div class="modal-dialog" role="document">
@@ -69,25 +36,14 @@
       </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-    <!-- Set some values using django template to be used in JS code-->
-    <script type="text/javascript">
-        var AppDispatcher = new Flux.Dispatcher();
-        var staticUrl = "{% static 'game/' %}";
-    </script>
+{% endblock %}
 
-    <script type="text/javascript" src="{% static 'game/js/tools/EventEmitter.js' %}"></script>
-    <script type="text/javascript" src="{% static 'game/js/tools/Api.js' %}"></script>
-    <script type="text/javascript" src="{% static 'game/js/Actions.js' %}"></script>
-    <script type="text/javascript" src="{% static 'game/js/stores/Store.js' %}"></script>
-    <script type="text/javascript" src="{% static 'game/js/stores/StatusStore.js' %}"></script>
+
+{% block scripts %}
     <script type="text/javascript" src="{% static 'game/js/stores/PlayersStore.js' %}"></script>
     <script type="text/javascript" src="{% static 'game/js/stores/MapStore.js' %}"></script>
     <script type="text/javascript" src="{% static 'game/js/stores/TypesStore.js' %}"></script>
-    <script type="text/javascript" src="{% static 'game/js/components/StatusBox.js' %}"></script>
     <script type="text/javascript" src="{% static 'game/js/components/PlayersBox.js' %}"></script>
     <script type="text/javascript" src="{% static 'game/js/components/MapBox.js' %}"></script>
     <script type="text/javascript" src="{% static 'game/js/components/TypeChooser.js' %}"></script>
-
-</body>
-
-</html>
+{% endblock %}
