@@ -32,6 +32,8 @@ def add_type(player, node, type):
         raise RuleIssue('The player must have enough gold to cover the cost for the new buildings.',
                         '%s costs %s' % (type.name, type.cost))
 
+    # TODO check nb_buy allowed to player
+
     # check there is slot for the building on the node
     if not node.player:
         # check the building is near a player node, if player already has one
@@ -67,7 +69,23 @@ def add_type(player, node, type):
 
 
 def end_turn(player):
-    # recompute victory points
-    # recompute gold
-    # set to next player
-    return
+    game = player.game
+    if player != game.current_player:
+        raise Exception('%s is not current player %s' % (player.name, game.current_player.name))
+
+    # TODO recompute victory points
+
+    # TODO recompute gold
+
+    # set game to next player
+    players = Player.objects.filter(game_id=player.game_id).order_by('id')
+    next_player = None
+    for p in players:
+        if p.id > player.id:
+            next_player = p
+            break
+    if not next_player:
+        # current player is the last one, loop to first
+        next_player = players[0]
+    game.current_player = next_player
+    game.save()

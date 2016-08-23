@@ -15,9 +15,14 @@ function playersChanged(event) {
             +  '</div>'
             +    '<ul class="list-group">'
             +      '<li class="list-group-item gold">Gold: '+player.gold+' <i class="fa fa-money"></i></li>'
-            +      '<li class="list-group-item victory">Victory points: '+player.points+'</li>'
-            +    '</ul>'
-            +'</div>'
+            +      '<li class="list-group-item victory">Victory points: '+player.points+'</li>';
+        if (active==player.id) {
+            html += '<li class="list-group-item">'
+                 +    '<button class="btn btn-success" id="endturn" type="button" onclick="Actions.endTurn('+active+')">END TURN</button>'
+                 +  '</li>';
+        }
+        html += '</ul>'
+             +'</div>';
         var panel = $(html);
         players_dom.append(panel);
     }

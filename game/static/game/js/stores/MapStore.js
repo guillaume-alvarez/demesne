@@ -69,7 +69,7 @@ MapStore.prototype.handle = function (event) {
             MAP_STORE._askedNode = null;
             return true;
 
-        case Actions.ACTION_UPDATED_NODE:
+        case Actions.ACTION_LOADED_NODE:
             if (event.error) {
                 console.log('Could not update node: ' + JSON.stringify(event.error));
                 return true;

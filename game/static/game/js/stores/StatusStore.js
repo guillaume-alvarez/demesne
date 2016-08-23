@@ -55,7 +55,7 @@ StatusStore.prototype.handle = function (event) {
 		    STATUS_STORE.checkError(event, 'Selected type.');
 			break;
 
-		case Actions.ACTION_UPDATED_NODE:
+		case Actions.ACTION_LOADED_NODE:
 		    STATUS_STORE.checkError(event, 'Node updated.');
 			break;
 

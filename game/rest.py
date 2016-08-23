@@ -61,6 +61,13 @@ class PlayerViewset(viewsets.ModelViewSet):
     serializer_class = PlayerSerializer
     renderer_classes = (renderers.JSONRenderer, )
 
+    @detail_route(methods=['post'])
+    def end_turn(self, request, pk=None):
+        player = self.get_object()
+        rules.end_turn(player)
+        serializer = self.get_serializer(player)
+        return Response(serializer.data)
+
 
 class TypeViewset(viewsets.ReadOnlyModelViewSet):
     queryset = Type.objects.all()

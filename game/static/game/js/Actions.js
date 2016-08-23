@@ -4,7 +4,9 @@ var Actions = {
     ACTION_ASK_TYPES: "ACTION_ASK_TYPES",
     ACTION_LOADED_TYPES: "ACTION_LOADED_TYPES",
     ACTION_SELECT_TYPE: "ACTION_SELECT_TYPE",
-    ACTION_UPDATED_NODE: "ACTION_UPDATED_NODE",
+    ACTION_LOADED_NODE: "ACTION_LOADED_NODE",
+    ACTION_LOADED_PLAYER: "ACTION_LOADED_PLAYER",
+    ACTION_END_TURN: "ACTION_END_TURN",
 
   /**
    * @param  {integer} playersNumber number of players for the game
@@ -41,6 +43,16 @@ var Actions = {
         x: x,
         y: y,
         selected: selected,
+    });
+  },
+
+  /**
+   * @param  {integer} player the player that requested to end its turn
+   */
+  endTurn: function(player) {
+    AppDispatcher.dispatch({
+        actionType: this.ACTION_END_TURN,
+        player: player,
     });
   },
 

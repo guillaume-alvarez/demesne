@@ -41,12 +41,19 @@ PlayersStore.prototype.handle = function (event) {
             }
             break;
 
-        case Actions.ACTION_UPDATED_NODE:
+        case Actions.ACTION_LOADED_NODE:
             // we also receive the player state in the node
             var player = event.response.player;
             PLAYERS_STORE._players[player.id] = player;
             if (player.active) PLAYERS_STORE._active = player.id;
             break;
+
+        case Actions.ACTION_END_TURN:
+            // notify end of turn and ask to reload game
+            var player = event.player;
+            Api.updateData('players', player + '/end_turn', {}, Actions.ACTION_LOADED_PLAYER, {});
+            Api.getData('games', PLAYERS_STORE._players[player].game, Actions.ACTION_LOADED_GAME, {});
+            return true;
 
         default:
             // ignore by default
