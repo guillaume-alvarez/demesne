@@ -1,0 +1,53 @@
+{% extends "game/generic_headers.html" %}
+
+{% load static %}
+
+{% block content %}
+    <div class="col-md-2">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-title">Players...</div>
+            </div>
+            <div class="panel-body" id="players"></div>
+        </div>
+    </div>
+    <div class="col-md-10">
+        <div  class="panel panel-primary">
+            <div class="panel-heading">
+                <div class="panel-title">Game Map - <strong><span id="gameName"></span></strong></div>
+            </div>
+            <div class="panel-body" id="map"></div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="modal-box">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="modal-title"></h4>
+          </div>
+          <div class="modal-body" id="modal-body">
+          </div>
+          <div class="modal-footer" id="modal-footer">
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+{% endblock %}
+
+
+{% block scripts %}
+    <script type="text/javascript" src="{% static 'game/js/stores/PlayersStore.js' %}"></script>
+    <script type="text/javascript" src="{% static 'game/js/stores/MapStore.js' %}"></script>
+    <script type="text/javascript" src="{% static 'game/js/stores/TypesStore.js' %}"></script>
+    <script type="text/javascript" src="{% static 'game/js/components/PlayersBox.js' %}"></script>
+    <script type="text/javascript" src="{% static 'game/js/components/MapBox.js' %}"></script>
+    <script type="text/javascript" src="{% static 'game/js/components/TypeChooser.js' %}"></script>
+
+    <script>
+            Api.getData('games', {{ game_id }}, Actions.ACTION_LOADED_GAME, {});
+    </script>
+{% endblock %}
