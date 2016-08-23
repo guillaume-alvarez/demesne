@@ -14,8 +14,8 @@ function playersChanged(event) {
             +    '<h3 class="panel-title">'+player.name+'</h3>'
             +  '</div>'
             +    '<ul class="list-group">'
-            +      '<li class="list-group-item">Gold: '+player.gold+' <i class="fa fa-money"></i></li>'
-            +      '<li class="list-group-item">Victory points: '+player.points+'</li>'
+            +      '<li class="list-group-item gold">Gold: '+player.gold+' <i class="fa fa-money"></i></li>'
+            +      '<li class="list-group-item victory">Victory points: '+player.points+'</li>'
             +    '</ul>'
             +'</div>'
         var panel = $(html);

@@ -32,7 +32,7 @@ function mapChanged(event) {
                 toggle:"popover",
                 trigger:"hover",
                 container:"body",
-                content:formatInfo(node,places),
+                content:formatInfo(places),
                 placement:"bottom",
                 html:true
             });
@@ -47,29 +47,34 @@ function mapChanged(event) {
     map.append(table);
 }
 
-function formatInfo(type,places){
+function formatType(type){
     if(type){
-        if(places && places.length > 1){
-            var info;
-            // on concatène l'affichage de chaque carte en rappelant la méthode avec un tableau de 1
-            $.each(places,function(index,p){
-                info = "<div class='place-description'>";
-                info = info + formatInfo(p,[p]);
-                info = info + "</div>";
-            });
-        }else if(places && places.length == 1){
-            var info = "<strong>"
-            +"costs "+type.cost+" <i class='fa fa-money'></i><br>"
-            +(type.add_slot >0?"+"+type.add_slot+" SLOT<br>":"")
-            +(type.add_gold >0?"+"+type.add_gold+" <i class='fa fa-money'></i><br>":"")
-            +(type.add_buy >0?"+"+type.add_buy+" BUY<br>":"");
-            if (type.description) info += "<em>"+type.description+"</em>";
-        }else{
-            var info = "<em>This tile is free and does nothing.</em>";
-        }
+        var info = "<strong>"
+            +(type.add_slot >0?"<span class='slot'>+"+type.add_slot+" SLOT</span><br>":"")
+            +(type.add_gold >0?"<span class='gold'>+"+type.add_gold+" <i class='fa fa-money'></i></span><br>":"")
+            +(type.add_buy >0?"<span class='buy'>+"+type.add_buy+" BUY</span><br>":"");
+        if (type.description) info += "<em>"+type.description+"</em>";
     }else{
         var info = "<em>This tile is free and does nothing.</em>";
     }
+    return info;
+
+}
+
+function formatInfo(places){
+
+        if(places && places.length > 1){
+            var info;
+            // on concatène l'affichage de chaque carte en rappelant la méthode avec un tableau de 1
+            $.each(places,function(index,type){
+                info = "<div class='place-description'>";
+                info = info + formatType(type);
+                info = info + "</div>";
+            });
+        }else if(places && places.length == 1){
+            info = formatType(places[0]);
+        }
+
     return info;
 }
 

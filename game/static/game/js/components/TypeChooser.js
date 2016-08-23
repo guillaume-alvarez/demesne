@@ -24,15 +24,16 @@ function typeChanged(event) {
         var td = $('<td>');
         var type = TYPES_STORE.type(names[i]);
         var text = '<div class="type"><img src="'+window.staticUrl+'img/'+type.slug+'.jpg"></div>';
-        td.html(text + "<p>"+type.cost+"&nbsp;<i class='fa fa-money'></i></p>");
+        var cost = "<span class='gold'>"+type.cost+"&nbsp;<i class='fa fa-money'></i></span>";
+        td.html(text + "<p>"+cost+"</p>");
 
         // add popover
-        td.attr("title",type.name);
+        td.attr("title",type.name +"&nbsp;<strong>"+cost+"</strong>");
         td.popover({
             toggle:"popover",
             trigger:"hover",
             container:"body",
-            content:formatInfo(type), // function from MapBox
+            content:formatType(type), // function from MapBox
             placement:"bottom",
             html:true
         });

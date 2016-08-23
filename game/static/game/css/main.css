@@ -49,3 +49,28 @@ img {
     max-width: 100%;
     max-height: 100%;
 }
+
+/* color codes for game concepts */
+.gold{
+    color: #e5c100;
+}
+
+.buy{
+    color: #006600;
+}
+
+.victory{
+    color: #00CD00;
+}
+
+.slot{
+    color: #333333;
+}
+
+.card{
+    color: #333333;
+}
+
+.attack{
+    color: #333333;
+}
