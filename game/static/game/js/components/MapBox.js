@@ -22,6 +22,14 @@ function mapChanged(event) {
 
 
             var nodeClasses = "node "+((places && places.length > 1)?"multiple":"");
+            // add the color to the tile
+            var color = "";
+            if(MAP_STORE.node(x,y).player){
+                color = window.colors[MAP_STORE.node(x,y).player.id % window.colors.length];
+                td.attr("style","background:"+color+";");
+            }
+
+
             var text = node ?
                 '<div class="'+nodeClasses+'"><img src="'+window.staticUrl+'img/'+node.slug+'.jpg"></div>'
                 : '<div class="node">empty</div>';
@@ -30,6 +38,7 @@ function mapChanged(event) {
             // add popover
             var title = node?((places && places.length > 1) ?'Multiple cards':node.name):'Empty tile';
             td.attr("title",title);
+
             td.popover({
                 toggle:"popover",
                 trigger:"hover",
