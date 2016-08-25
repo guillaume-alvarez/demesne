@@ -65,7 +65,7 @@ MapStore.prototype.handle = function (event) {
         case Actions.ACTION_SELECT_TYPE:
             var node = MAP_STORE._nodes[event.x][event.y];
             var data = {type: event.selected, player: PLAYERS_STORE.active()};
-            Api.updateData('nodes', node.id + '/add_type', data, Actions.ACTION_UPDATED_NODE, {});
+            Api.updateData('nodes', node.id + '/add_type', data, Actions.ACTION_LOADED_NODE, {});
             MAP_STORE._askedNode = null;
             return true;
 
