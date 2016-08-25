@@ -14,7 +14,7 @@ def create_game(game):
     # init players
     players = []
     for p in range(game.nb_players):
-        players.append(Player(name='Player%d/%d' % (game.id, p), game=game, gold=7, points=3))
+        players.append(Player(name='Player%d/%d' % (game.id, p), game=game, gold=7, turn_gold=4, points=3))
     Player.objects.bulk_create(players)
     game.current_player = Player.objects.get(name='Player%d/0' % game.id)
     game.save()
@@ -28,11 +28,12 @@ def create_game(game):
 
 def add_type(player, node, type):
     # check player can buy the building
-    if player.gold < type.cost:
+    if player.turn_gold < type.cost:
         raise RuleIssue('The player must have enough gold to cover the cost for the new buildings.',
                         '%s costs %s' % (type.name, type.cost))
-
-    # TODO check nb_buy allowed to player
+    if player.turn_buy < 1:
+        raise RuleIssue('The player must have at least one buy action.',
+                        'Player has %s buy actions.' % player.turn_buy)
 
     # check there is slot for the building on the node
     if not node.player:
@@ -63,19 +64,25 @@ def add_type(player, node, type):
         Place.objects.create(node=node, type=type)
 
     # if it goes here the node was modified
-    player.gold -= type.cost
+    player.turn_gold -= type.cost
+    player.turn_buy -= 1
     player.save()
     node.save()
 
 
-def end_turn(player):
-    game = player.game
-    if player != game.current_player:
+def end_turn(game, player):
+    if player != game.current_player or player.game != game:
         raise Exception('%s is not current player %s' % (player.name, game.current_player.name))
 
-    # TODO recompute victory points
+    # TODO recompute victory points?
 
-    # TODO recompute gold
+    # recompute gold
+    # Current logic is that every turn the player restart with all the gold he paid,
+    # minus the cost for his victory points. It means that buying points early will hinder
+    # development. However you can't know exactly how long the game will last.
+    player.turn_gold = player.gold - player.points
+
+    # recompute rights to buy
 
     # set game to next player
     players = Player.objects.filter(game_id=player.game_id).order_by('id')
@@ -89,3 +96,5 @@ def end_turn(player):
         next_player = players[0]
     game.current_player = next_player
     game.save()
+
+    player.save()

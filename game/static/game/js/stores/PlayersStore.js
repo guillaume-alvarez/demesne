@@ -50,9 +50,7 @@ PlayersStore.prototype.handle = function (event) {
 
         case Actions.ACTION_END_TURN:
             // notify end of turn and ask to reload game
-            var player = event.player;
-            Api.updateData('players', player + '/end_turn', {}, Actions.ACTION_LOADED_PLAYER, {});
-            Api.getData('games', PLAYERS_STORE._players[player].game, Actions.ACTION_LOADED_GAME, {});
+            Api.updateData('games', PLAYERS_STORE._players[event.player].game + '/end_turn', {player: event.player}, Actions.ACTION_LOADED_GAME, {});
             return true;
 
         default:

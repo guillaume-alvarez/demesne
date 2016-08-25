@@ -35,6 +35,8 @@ class Player(models.Model):
     game = models.ForeignKey(Game)
     gold = models.IntegerField(default=0)
     points = models.IntegerField(default=0)
+    turn_gold = models.IntegerField(default=0)
+    turn_buy = models.IntegerField(default=1)
 
     def __str__(self):
         return self.name
