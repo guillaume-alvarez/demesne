@@ -10,9 +10,11 @@ class Type(models.Model):
     cost = models.IntegerField()
     add_slot = models.IntegerField(default=0)
     add_gold = models.IntegerField(default=0)
+    add_points = models.IntegerField(default=0)
     add_buy = models.IntegerField(default=0)
     add_move = models.IntegerField(default=0)
     special_effects = models.CharField(max_length=128, null=True)
+    need_slot = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name

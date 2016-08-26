@@ -63,9 +63,15 @@ MapStore.prototype.handle = function (event) {
             break;
 
         case Actions.ACTION_SELECT_TYPE:
-            var node = MAP_STORE._nodes[event.x][event.y];
-            var data = {type: event.selected, player: PLAYERS_STORE.active()};
-            Api.updateData('nodes', node.id + '/add_type', data, Actions.ACTION_LOADED_NODE, {});
+            if(event.x !== undefined){
+                var node = MAP_STORE._nodes[event.x][event.y];
+                var data = {type: event.selected, player: PLAYERS_STORE.active()};
+                Api.updateData('nodes', node.id + '/add_type', data, Actions.ACTION_LOADED_NODE, {});
+            }else{
+                // add gold or VP
+                var data = {type: event.selected};
+                Api.updateData('players', PLAYERS_STORE.active() + '/add_type', data, Actions.ACTION_LOADED_PLAYER, {});
+            }
             MAP_STORE._askedNode = null;
             return true;
 

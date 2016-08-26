@@ -35,8 +35,15 @@ def add_type(player, node, type):
         raise RuleIssue('The player must have at least one buy action.',
                         'Player has %s buy actions.' % player.turn_buy)
 
-    # check there is slot for the building on the node
-    if not node.player:
+    # check if there is a node
+    if not node:
+        if type.need_slot:
+            raise RuleIssue('This card must be placed on a node.',
+                            '%s' % (type.name))
+        player.gold += type.add_gold
+        player.points += type.add_points
+        # check there is slot for the building on the node
+    elif not node.player:
         # check the building is near a player node, if player already has one
         if player.node_set.exists():
             has_neighbour = False
@@ -67,7 +74,8 @@ def add_type(player, node, type):
     player.turn_gold -= type.cost
     player.turn_buy -= 1
     player.save()
-    node.save()
+    if node:
+        node.save()
 
 
 def end_turn(game, player):

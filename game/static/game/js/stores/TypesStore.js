@@ -17,6 +17,12 @@ TypesStore.prototype.names = function () {
     return Object.keys(this._types);
 };
 
+TypesStore.prototype.typesArray = function () {
+    return $.map(this._types,function(value,index){
+        return value;
+    });
+};
+
 TypesStore.prototype.type = function (name) {
     return this._types[name];
 };

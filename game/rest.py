@@ -76,6 +76,14 @@ class PlayerViewset(viewsets.ModelViewSet):
         serializer = self.get_serializer(player)
         return Response(serializer.data)
 
+    @detail_route(methods=['post'])
+    def add_type(self,request, pk=None):
+        player = self.get_object()
+        type = Type.objects.get(slug=request.data['type'])
+        rules.add_type(player,None,type)
+        serializer = self.get_serializer(player)
+        return Response(serializer.data)
+
 
 class TypeViewset(viewsets.ReadOnlyModelViewSet):
     queryset = Type.objects.all()

@@ -16,7 +16,16 @@ function typeChanged(event) {
         };
     }
 
-    var names = TYPES_STORE.names();
+    // suivant si on cherche a poser une carte sur un noeud ou pas
+    // les cartes ne sont pas les mêmes
+    var names = TYPES_STORE.typesArray();
+
+    // suppression des cartes avec need_slot = false si asked pointe sur quelque chose
+    // sinon l'inverse
+    names = names.filter(function(value){
+        return (asked.x === undefined && asked.y === undefined) != value.need_slot;
+    });
+    names = $.map(names,function(value,index){return value.slug;});
 
     var table = $('<table class="table table-bordered" >');
     var tr = $("<tr>");
