@@ -74,7 +74,8 @@ function formatType(type){
         var info = "<strong>"
             +(type.add_slot >0?"<span class='slot'>+"+type.add_slot+" SLOT</span><br>":"")
             +(type.add_gold >0?"<span class='gold'>+"+type.add_gold+" <i class='fa fa-money'></i></span><br>":"")
-            +(type.add_buy >0?"<span class='buy'>+"+type.add_buy+" BUY</span><br>":"");
+            +(type.add_buy >0?"<span class='buy'>+"+type.add_buy+" BUY</span><br>":"")
+            +(type.add_points >0?"<span class='victory'>+"+type.add_points+" POINTS</span><br>":"");
         if (type.description) info += "<em>"+type.description+"</em>";
         info = info + "</strong>"
     }else{
