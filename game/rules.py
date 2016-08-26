@@ -90,7 +90,8 @@ def end_turn(game, player):
     # development. However you can't know exactly how long the game will last.
     player.turn_gold = player.gold - player.points
 
-    # recompute rights to buy
+    # recompute rights to buy TODO add card effects
+    player.turn_buy = 1
 
     # set game to next player
     players = Player.objects.filter(game_id=player.game_id).order_by('id')
