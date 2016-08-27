@@ -47,16 +47,21 @@ function mapChanged(event) {
                 html:true
             });
 
-            // calculate slots
+            // calculate slots and total gold
             var slotsRemaining = 1;
             var maxSlots = 1;
+            var totalGold = 0;
             if(places){
                 $.each(places,function(index,type){
                     maxSlots = maxSlots + type.add_slot;
                     slotsRemaining = slotsRemaining - 1 + type.add_slot;
+                    totalGold = totalGold + type.add_gold;
                 });
             }
             td.children(".node").append("<span class='bottom-right"+(slotsRemaining == 0?" no-more":"")+"'>"+slotsRemaining+"/"+maxSlots+"</span>");
+            if(node){
+                td.children(".node").append("<span class='up-right gold'>+"+totalGold+"<i class='fa fa-money'></i></span>");
+            }
 
             // let select a type for free nodes
             td.click(onclick(x, y));
