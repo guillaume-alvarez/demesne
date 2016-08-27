@@ -33,12 +33,16 @@ class Game(models.Model):
 
 
 class Player(models.Model):
+    INITIAL_BUY = 1
+    INITIAL_GOLD = 7
+    INITIAL_POINTS = 3
+
     name = models.CharField(max_length=128, db_index=True, unique=True)
     game = models.ForeignKey(Game)
-    gold = models.IntegerField(default=0)
-    points = models.IntegerField(default=0)
-    turn_gold = models.IntegerField(default=0)
-    turn_buy = models.IntegerField(default=1)
+    gold = models.IntegerField(default=INITIAL_GOLD)
+    points = models.IntegerField(default=INITIAL_POINTS)
+    turn_gold = models.IntegerField(default=INITIAL_GOLD-INITIAL_POINTS)
+    turn_buy = models.IntegerField(default=INITIAL_BUY)
 
     def __str__(self):
         return self.name
@@ -50,6 +54,7 @@ class Node(models.Model):
     x = models.IntegerField()
     y = models.IntegerField()
     places = models.ManyToManyField(Type, through='Place')
+    active = models.BooleanField(default=True)
 
     def __str__(self):
         return '(%d, %d)' % (self.x, self.y)
@@ -72,4 +77,3 @@ class Node(models.Model):
 class Place(models.Model):
     node = models.ForeignKey(Node, on_delete=models.CASCADE)
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
-    active = models.BooleanField(default=True)

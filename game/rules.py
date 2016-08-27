@@ -1,3 +1,4 @@
+from django.forms.formsets import INITIAL_FORM_COUNT
 
 from .models import Game, Player, Type, Node, Place
 
@@ -14,7 +15,7 @@ def create_game(game):
     # init players
     players = []
     for p in range(game.nb_players):
-        players.append(Player(name='Player%d/%d' % (game.id, p), game=game, gold=7, turn_gold=4, points=3))
+        players.append(Player(name='Player%d/%d' % (game.id, p), game=game))
     Player.objects.bulk_create(players)
     game.current_player = Player.objects.get(name='Player%d/0' % game.id)
     game.save()
@@ -39,36 +40,39 @@ def add_type(player, node, type):
     if not node:
         if type.need_slot:
             raise RuleIssue('This card must be placed on a node.',
-                            '%s' % (type.name))
+                            '%s must be placed on the map.' % (type.name))
         player.gold += type.add_gold
         player.points += type.add_points
-        # check there is slot for the building on the node
-    elif not node.player:
-        # check the building is near a player node, if player already has one
-        if player.node_set.exists():
-            has_neighbour = False
-            for neighbour in node.neighbours():
-                if neighbour.player == player:
-                    has_neighbour = True
-                    break
-            if not has_neighbour:
-                raise RuleIssue('New nodes must be contiguous to at least another one from the player.',
-                                'No neighbour owned by %s for %s' % (player, node))
 
-        # always possible to add a card to an empty node
-        Place.objects.create(node=node, type=type)
-        node.player = player
+    # else check there is slot for the building on the node
     else:
-        # check it is the correct player
-        if node.player != player:
-            raise RuleIssue('A player cannot add a building to a node owned by another player.', 'Node belongs to %s' % node.player)
-        # count the number of available slots
-        available = 1
-        for p in node.places.all():
-            available += p.add_slot - 1
-        if available < 1:
-            raise RuleIssue('There must be an empty slot on a node to add a building.', 'Already placed: %s' % node.places)
-        Place.objects.create(node=node, type=type)
+        if not node.player:
+            # check the building is near a player node, if player already has one
+            if player.node_set.exists():
+                has_neighbour = False
+                for neighbour in node.neighbours():
+                    if neighbour.player == player:
+                        has_neighbour = True
+                        break
+                if not has_neighbour:
+                    raise RuleIssue('New nodes must be contiguous to at least another one from the player.',
+                                    'No neighbour owned by %s for %s' % (player, node))
+
+            # always possible to add a card to an empty node
+            Place.objects.create(node=node, type=type)
+            node.player = player
+
+        else:
+            # check it is the correct player
+            if node.player != player:
+                raise RuleIssue('A player cannot add a building to a node owned by another player.', 'Node belongs to %s' % node.player)
+            # count the number of available slots
+            available = 1
+            for p in node.places.all():
+                available += p.add_slot - 1
+            if available < 1:
+                raise RuleIssue('There must be an empty slot on a node to add a building.', 'Already placed: %s' % node.places)
+            Place.objects.create(node=node, type=type)
 
     # if it goes here the node was modified
     player.turn_gold -= type.cost
@@ -90,8 +94,12 @@ def end_turn(game, player):
     # development. However you can't know exactly how long the game will last.
     player.turn_gold = player.gold - player.points
 
-    # recompute rights to buy TODO add card effects
-    player.turn_buy = 1
+    # recompute rights to buy from cards
+    player.turn_buy = Player.INITIAL_BUY
+    for node in player.node_set.all():
+        if node.active:
+            for p in node.places.all():
+                player.turn_buy += p.add_buy
 
     # set game to next player
     players = Player.objects.filter(game_id=player.game_id).order_by('id')
