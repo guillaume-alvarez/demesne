@@ -4,6 +4,7 @@
 function PlayersStore () {
     Store.call(this);
     this._players = {};
+    this._colors = {};
     this._active = null;
 };
 PlayersStore.prototype = Object.create(Store.prototype);
@@ -11,6 +12,10 @@ PlayersStore.prototype.constructor = PlayersStore;
 
 PlayersStore.prototype.player = function (id) {
     return this._players[id];
+};
+
+PlayersStore.prototype.color = function (id) {
+    return this._colors[id];
 };
 
 PlayersStore.prototype.players = function () {
@@ -32,10 +37,12 @@ PlayersStore.prototype.handle = function (event) {
             }
             var players = event.response.player_set;
             PLAYERS_STORE._players = {};
+            PLAYERS_STORE._colors = {};
             for (var i=0; i<players.length; i++) {
                 var player = players[i];
                 console.log('Loading player: '+JSON.stringify(player))
                 PLAYERS_STORE._players[player.id] = player;
+                PLAYERS_STORE._colors[player.id] = window.colors[i % window.colors.length];
                 // at the moment have a default active player... should be managed on server side
                 PLAYERS_STORE._active = event.response.current_player;
             }

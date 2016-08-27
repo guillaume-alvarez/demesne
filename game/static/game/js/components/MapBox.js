@@ -25,10 +25,9 @@ function mapChanged(event) {
             // add the color to the tile
             var color = "";
             if(MAP_STORE.node(x,y).player){
-                color = window.colors[MAP_STORE.node(x,y).player.id % window.colors.length];
+                color = PLAYERS_STORE.color(MAP_STORE.node(x,y).player.id);
                 td.attr("style","background:"+color+";");
             }
-
 
             var text = node ?
                 '<div class="'+nodeClasses+'"><img src="'+window.staticUrl+'img/'+node.slug+'.jpg"></div>'
