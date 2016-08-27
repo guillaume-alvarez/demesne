@@ -11,7 +11,7 @@ function playersChanged(event) {
         var html =
              '<div class="panel '+(active==player.id ? 'panel-info':'panel-default')+'">'
             +  '<div class="panel-heading">'
-            +    '<h3 class="panel-title" style="color:'+window.colors[player.id % window.colors.length]+'">'+player.name+'</h3>'
+            +    '<h3 class="panel-title" style="color:'+window.colors[i % window.colors.length]+'">'+player.name+'</h3>'
             +  '</div>'
             +    '<ul class="list-group">'
             +      '<li class="list-group-item gold">Gold: '+player.turn_gold+'/'+player.gold+' <i class="fa fa-money"></i></li>'
