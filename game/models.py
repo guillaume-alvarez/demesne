@@ -7,6 +7,9 @@ class Type(models.Model):
     name = models.CharField(max_length=128, db_index=True, unique=True)
     slug = models.SlugField(max_length=128, db_index=True, unique=True)
     description = models.CharField(max_length=128, null=True)
+    mandatory = models.BooleanField(default=False, help_text='The type will be present in all games.')
+    start_number = models.IntegerField(default=10, help_text='Number of times this type can be bought in a game.')
+    end_game = models.BooleanField(default=False, help_text='The game ends when this type can no longer be bought.')
     cost = models.IntegerField()
     add_slot = models.IntegerField(default=0)
     add_gold = models.IntegerField(default=0)
@@ -28,11 +31,20 @@ class Game(models.Model):
     nb_players = models.IntegerField()
     map_height = models.IntegerField()
     map_width = models.IntegerField()
-    # need the name as it is not yet defined, do not need the reverse mapping
+    # need the model name as it is not yet defined, do not need the reverse mapping
     current_player = models.ForeignKey('Player', related_name='+', null=True)
 
     def __str__(self):
         return self.name
+
+
+class Deck(models.Model):
+    game = models.ForeignKey(Game, models.CASCADE, related_name='decks')
+    type = models.ForeignKey(Type, models.CASCADE)
+    nb = models.IntegerField()
+
+    class Meta:
+        unique_together = index_together = ['game', 'type']
 
 
 class Player(models.Model):
@@ -81,8 +93,8 @@ class Node(models.Model):
 
 
 class Place(models.Model):
-    node = models.ForeignKey(Node, on_delete=models.CASCADE)
-    type = models.ForeignKey(Type, on_delete=models.CASCADE)
+    node = models.ForeignKey(Node, models.CASCADE)
+    type = models.ForeignKey(Type, models.CASCADE, related_name='+')
 
     def __str__(self):
         return self.type.name

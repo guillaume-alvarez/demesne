@@ -69,36 +69,34 @@ function mapChanged(event) {
     map.append(table);
 }
 
-function formatType(type){
-    if(type){
-        var info = "<strong>"
-            +(type.add_slot >0?"<span class='slot'>+"+type.add_slot+" SLOT</span><br>":"")
-            +(type.add_gold >0?"<span class='gold'>+"+type.add_gold+" <i class='fa fa-money'></i></span><br>":"")
-            +(type.add_buy >0?"<span class='buy'>+"+type.add_buy+" BUY</span><br>":"")
-            +(type.add_points >0?"<span class='victory'>+"+type.add_points+" POINTS</span><br>":"");
-        if (type.description) info += "<em>"+type.description+"</em>";
-        info = info + "</strong>"
-    }else{
-        var info = "<em>This tile is free and does nothing.</em>";
-    }
+function formatType(type) {
+    var info = "<strong>"
+        + (type.add_slot >0?"<span class='slot'>+"+type.add_slot+" SLOT</span><br>":"")
+        + (type.add_gold >0?"<span class='gold'>+"+type.add_gold+" <i class='fa fa-money'></i></span><br>":"")
+        + (type.add_buy >0?"<span class='buy'>+"+type.add_buy+" BUY</span><br>":"")
+        + (type.add_points >0?"<span class='victory'>+"+type.add_points+" POINTS</span><br>":"");
+    if (type.description) info += "<em>"+type.description+"</em>";
+    info = info + "</strong>"
     return info;
 
 }
 
 function formatInfo(places){
-
-        if(places && places.length > 1){
-            var info ="";
-            // on concatène l'affichage de chaque carte en rappelant la méthode avec un tableau de 1
-            $.each(places,function(index,type){
-                info = info + "<div class='place-description'>";
-                info = info + "<em>"+type.name+"</em><br>";
-                info = info + formatType(type);
-                info = info + "</div>";
-            });
-        }else if(places && places.length == 1){
-            info = formatType(places[0]);
-        }
+   var info ="";
+   if (places && places.length > 1) {
+        // on concatène l'affichage de chaque carte en rappelant la méthode avec un tableau de 1
+        $.each(places, function(index,type) {
+            info += "<div class='place-description'>";
+            info += "<em>"+type.name+"</em><br>";
+            info += formatType(type);
+            info += "</div>";
+        });
+    } else if (places && places.length == 1) {
+        var type = places[0];
+        info += type ? formatType(type) : "<em>This tile is free and does nothing.</em>";
+    } else {
+        info += "<em>This tile is free and does nothing.</em>";
+    }
 
     return info;
 }

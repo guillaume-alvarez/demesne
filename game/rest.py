@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import detail_route
 
 from . import rules
-from .models import Game, Player, Type, Node
+from .models import Game, Player, Type, Node, Deck
 
 
 # Serializers define the API representation.
@@ -36,9 +36,18 @@ class NodeSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class DeckSerializer(serializers.ModelSerializer):
+    type = TypeSerializer(read_only=True)
+
+    class Meta:
+        model = Deck
+        fields = ('type', 'nb')
+
+
 class GameSerializer(serializers.ModelSerializer):
     node_set = NodeSerializer(many=True, read_only=True)
     player_set = PlayerSerializer(many=True, read_only=True)
+    decks = DeckSerializer(many=True, read_only=True)
 
     class Meta:
         model = Game

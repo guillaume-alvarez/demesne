@@ -1,6 +1,8 @@
 from django.forms.formsets import INITIAL_FORM_COUNT
 
-from .models import Game, Player, Type, Node, Place
+from .models import Game, Player, Type, Node, Place, Deck
+
+from random import shuffle
 
 # contains the basic rules for the game, validating player actions
 
@@ -12,6 +14,23 @@ class RuleIssue(Exception):
 
 
 def create_game(game):
+    # generate starting decks for the game (random selection of optional cards)
+    decks = []
+    nb_optional = 10
+    available = list(Type.objects.all())
+    shuffle(available)
+    for type in available:
+        if type.mandatory or --nb_optional >= 0:
+            decks.append(Deck(game=game, type=type, nb=type.start_number))
+    Deck.objects.bulk_create(decks)
+
+    # init map (i.e. nodes to play cards on)
+    nodes = []
+    for x in range(game.map_width):
+        for y in range(game.map_height):
+            nodes.append(Node(game=game, x=x, y=y))
+    Node.objects.bulk_create(nodes)
+
     # init players
     players = []
     for p in range(game.nb_players):
@@ -19,12 +38,6 @@ def create_game(game):
     Player.objects.bulk_create(players)
     game.current_player = Player.objects.get(name='Player%d/0' % game.id)
     game.save()
-    # init map (i.e. nodes to play cards on)
-    nodes = []
-    for x in range(game.map_width):
-        for y in range(game.map_height):
-            nodes.append(Node(game=game, x=x, y=y))
-    Node.objects.bulk_create(nodes)
 
 
 def add_type(player, node, type):
@@ -35,6 +48,10 @@ def add_type(player, node, type):
     if player.turn_buy < 1:
         raise RuleIssue('The player must have at least one buy action.',
                         'Player has %s buy actions.' % player.turn_buy)
+    deck = player.game.decks.get(type=type)
+    if not deck or deck.nb < 1:
+        raise RuleIssue('The type must be available in game',
+                        'Type %s is not available in game.' % type.name)
 
     # check if there is a node
     if not node:
@@ -80,6 +97,8 @@ def add_type(player, node, type):
     player.turn_gold -= type.cost
     player.turn_buy -= 1
     player.save()
+    deck.nb -= 1
+    deck.save()
     if node:
         node.save()
 

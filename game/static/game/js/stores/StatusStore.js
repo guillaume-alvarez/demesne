@@ -47,16 +47,16 @@ StatusStore.prototype.handle = function (event) {
 		    STATUS_STORE.checkError(event, 'Loading types for selection.');
 			break;
 
-		case Actions.ACTION_LOADED_TYPES:
-		    STATUS_STORE.checkError(event, 'Loaded types, can select one.');
-			break;
-
 		case Actions.ACTION_SELECT_TYPE:
 		    STATUS_STORE.checkError(event, 'Selected type.');
 			break;
 
 		case Actions.ACTION_LOADED_NODE:
 		    STATUS_STORE.checkError(event, 'Node updated.');
+			break;
+
+		case Actions.ACTION_END_TURN:
+            STATUS_STORE.checkError(event, 'End player turn.');
 			break;
 
         default:

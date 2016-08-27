@@ -32,12 +32,13 @@ function typeChanged(event) {
     for (var i = 0; i < names.length; i++){
         var td = $('<td>');
         var type = TYPES_STORE.type(names[i]);
+        var remaining = TYPES_STORE.remaining(names[i]);
         var text = '<div class="type"><img src="'+window.staticUrl+'img/'+type.slug+'.jpg"></div>';
         var cost = "<span class='gold'>"+type.cost+"&nbsp;<i class='fa fa-money'></i></span>";
         td.html(text + "<p>"+cost+"</p>");
 
         // add popover
-        td.attr("title",type.name +"&nbsp;<strong>"+cost+"</strong>");
+        td.attr("title",type.name +'&nbsp;<strong>'+cost+'</strong> '+remaining+'/'+type.start_number);
         td.popover({
             toggle:"popover",
             trigger:"hover",

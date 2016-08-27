@@ -27,11 +27,11 @@ class Command(BaseCommand):
             Type(name="Festival", slug="festival", cost=5, add_slot=2, add_buy=1, add_gold=2),
             Type(name="Village", slug="village", cost=3, add_slot=2, add_move=1),
 
-            Type(name="Gold", slug="gold", cost=6, need_slot=False,add_gold=3),
-            Type(name="Silver", slug="silver", cost=3, need_slot=False,add_gold=2),
-            Type(name="Copper", slug="copper", cost=0, need_slot=False,add_gold=1),
+            Type(name="Gold", slug="gold", cost=6, need_slot=False,add_gold=3,start_number=10,mandatory=True),
+            Type(name="Silver", slug="silver", cost=3, need_slot=False,add_gold=2,start_number=20,mandatory=True),
+            Type(name="Copper", slug="copper", cost=0, need_slot=False,add_gold=1,start_number=30,mandatory=True),
 
-            Type(name="Province", slug="province", cost=8, need_slot=False,add_points=6),
-            Type(name="Duchy", slug="duchy", cost=5, need_slot=False,add_points=3),
-            Type(name="Estate", slug="estate", cost=2, need_slot=False,add_points=1),
+            Type(name="Province", slug="province", cost=8, need_slot=False,add_points=6,start_number=12,mandatory=True,end_game=True),
+            Type(name="Duchy", slug="duchy", cost=5, need_slot=False,add_points=3,start_number=12,mandatory=True),
+            Type(name="Estate", slug="estate", cost=2, need_slot=False,add_points=1,start_number=12,mandatory=True),
         ])
