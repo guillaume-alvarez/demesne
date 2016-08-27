@@ -28,6 +28,18 @@ PlayersStore.prototype.active = function () {
     return this._active;
 };
 
+PlayersStore.prototype._updatePlayer = function (player) {
+    this._players[player.id] = player;
+    if (player.active) {
+        this._active = player.id;
+        if (player.turn_buy <= 0) {
+            Api.updateData('games', player.game + '/end_turn', {player: player.id}, Actions.ACTION_LOADED_GAME, {});
+            return true;
+        }
+    }
+    return false;
+};
+
 PlayersStore.prototype.handle = function (event) {
 
     switch(event.actionType) {
@@ -50,15 +62,11 @@ PlayersStore.prototype.handle = function (event) {
 
         case Actions.ACTION_LOADED_NODE:
             // we also receive the player state in the node
-            var player = event.response.player;
-            PLAYERS_STORE._players[player.id] = player;
-            if (player.active) PLAYERS_STORE._active = player.id;
+            if (PLAYERS_STORE._updatePlayer(event.response.player)) return true;
             break;
 
         case Actions.ACTION_LOADED_PLAYER:
-            var player = event.response;
-            PLAYERS_STORE._players[player.id] = player;
-            if (player.active) PLAYERS_STORE._active = player.id;
+            if (PLAYERS_STORE._updatePlayer(event.response)) return true;
             break;
 
         case Actions.ACTION_END_TURN:
