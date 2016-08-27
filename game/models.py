@@ -19,6 +19,9 @@ class Type(models.Model):
     def __str__(self):
         return self.name
 
+    def __repr__(self):
+        return self.__str__()
+
 
 class Game(models.Model):
     name = models.CharField(max_length=128, db_index=True, unique=True)
@@ -59,6 +62,9 @@ class Node(models.Model):
     def __str__(self):
         return '(%d, %d)' % (self.x, self.y)
 
+    def __repr__(self):
+        return self.__str__()
+
     neighbours_delta = [(x, y) for x in range(-1, 1) for y in range(-1, 1)]
     neighbours_delta.remove((0, 0))
 
@@ -77,3 +83,6 @@ class Node(models.Model):
 class Place(models.Model):
     node = models.ForeignKey(Node, on_delete=models.CASCADE)
     type = models.ForeignKey(Type, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.type.name

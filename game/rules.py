@@ -65,13 +65,15 @@ def add_type(player, node, type):
         else:
             # check it is the correct player
             if node.player != player:
-                raise RuleIssue('A player cannot add a building to a node owned by another player.', 'Node belongs to %s' % node.player)
+                raise RuleIssue('A player cannot add a building to a node owned by another player.',
+                                'Node belongs to %s' % node.player)
             # count the number of available slots
             available = 1
             for p in node.places.all():
                 available += p.add_slot - 1
             if available < 1:
-                raise RuleIssue('There must be an empty slot on a node to add a building.', 'Already placed: %s' % node.places)
+                raise RuleIssue('There must be an empty slot on a node to add a building.',
+                                'Already placed: %s' % node.places.all())
             Place.objects.create(node=node, type=type)
 
     # if it goes here the node was modified
@@ -93,6 +95,10 @@ def end_turn(game, player):
     # minus the cost for his victory points. It means that buying points early will hinder
     # development. However you can't know exactly how long the game will last.
     player.turn_gold = player.gold - player.points
+    for node in player.node_set.all():
+        if node.active:
+            for p in node.places.all():
+                player.turn_gold += p.add_gold
 
     # recompute rights to buy from cards
     player.turn_buy = Player.INITIAL_BUY
