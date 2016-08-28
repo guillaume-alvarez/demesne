@@ -19,13 +19,13 @@ function mapChanged(event) {
             var td = $('<td>');
             var places = MAP_STORE.node(x, y).places;
             var node = places ? places[0] : null;
-
+            var player = MAP_STORE.node(x,y).player;
 
             var nodeClasses = "node "+((places && places.length > 1)?"multiple":"");
             // add the color to the tile
             var color = "";
-            if(MAP_STORE.node(x,y).player){
-                color = PLAYERS_STORE.color(MAP_STORE.node(x,y).player.id);
+            if(player){
+                color = PLAYERS_STORE.color(player.id);
                 td.attr("style","background:"+color+";");
             }
 
@@ -64,7 +64,9 @@ function mapChanged(event) {
             }
 
             // let select a type for free nodes
-            td.click(onclick(x, y));
+            if (slotsRemaining > 0 && (!player || player.id == PLAYERS_STORE.active())) {
+                td.click(onclick(x, y));
+            }
         }
         table.append(tr);
     }
