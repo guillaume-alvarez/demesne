@@ -48,6 +48,10 @@
         var AppDispatcher = new Flux.Dispatcher();
         var staticUrl = "{% static 'game/' %}";
         var colors = ["blue","cyan","red","green","brown","black","purple","orange"];
+
+        $(document).on('show.bs.popover', function() {
+            $('.popover').not(this).popover('hide');
+        });
     </script>
 
     <script type="text/javascript" src="{% static 'game/js/tools/EventEmitter.js' %}"></script>
