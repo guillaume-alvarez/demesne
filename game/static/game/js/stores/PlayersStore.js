@@ -61,11 +61,13 @@ PlayersStore.prototype.handle = function (event) {
             break;
 
         case Actions.ACTION_LOADED_NODE:
+            if (event.error) return true;
             // we also receive the player state in the node
             if (PLAYERS_STORE._updatePlayer(event.response.player)) return true;
             break;
 
         case Actions.ACTION_LOADED_PLAYER:
+            if (event.error) return true;
             if (PLAYERS_STORE._updatePlayer(event.response)) return true;
             break;
 
