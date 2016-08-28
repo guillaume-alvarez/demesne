@@ -35,7 +35,6 @@ function typeChanged(event) {
         var remaining = TYPES_STORE.remaining(names[i]);
         var text = '<div class="type"><img src="'+window.staticUrl+'img/'+type.slug+'.jpg"></div>';
         var cost = "<span class='gold'>"+type.cost+"&nbsp;<i class='fa fa-money'></i></span>";
-        td.html(text + "<p>"+cost+"</p>");
 
         // add popover
         td.attr("title",type.name +'&nbsp;<strong>'+cost+'</strong> '+remaining+'/'+type.start_number);
@@ -47,7 +46,12 @@ function typeChanged(event) {
             placement:"bottom",
             html:true
         });
-        td.click(onclick(names[i]));
+        if (remaining > 0) {
+            td.html(text + "<p>"+cost+"</p>");
+            td.click(onclick(names[i]));
+        } else {
+            td.html('<div class="greyout">'+text+'<p>'+cost+'</p></div>');
+        }
 
         tr.append(td);
     }
