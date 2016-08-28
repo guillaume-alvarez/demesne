@@ -33,6 +33,7 @@ class Game(models.Model):
     map_width = models.IntegerField()
     # need the model name as it is not yet defined, do not need the reverse mapping
     current_player = models.ForeignKey('Player', related_name='+', null=True)
+    winner = models.ForeignKey('Player', related_name='+', null=True)
 
     def __str__(self):
         return self.name

@@ -18,6 +18,7 @@ class TypeSerializer(serializers.ModelSerializer):
 
 class PlayerSerializer(serializers.ModelSerializer):
     active = serializers.SerializerMethodField()
+    winner = serializers.SerializerMethodField()
 
     class Meta:
         model = Player
@@ -25,6 +26,9 @@ class PlayerSerializer(serializers.ModelSerializer):
 
     def get_active (self, obj):
         return obj.game.current_player == obj
+
+    def get_winner (self, obj):
+        return obj.game.winner == obj
 
 
 class NodeSerializer(serializers.ModelSerializer):

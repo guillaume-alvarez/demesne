@@ -58,6 +58,12 @@ PlayersStore.prototype.handle = function (event) {
                 // at the moment have a default active player... should be managed on server side
                 PLAYERS_STORE._active = event.response.current_player;
             }
+
+            var winner = PLAYERS_STORE._players[event.response.winner];
+            if (winner) {
+                alert('Player '+winner.name+" has won the game with "+winner.points+" victory points!");
+            }
+
             break;
 
         case Actions.ACTION_LOADED_NODE:

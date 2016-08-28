@@ -41,6 +41,11 @@ def create_game(game):
 
 
 def add_type(player, node, type):
+    # check game is not finished
+    if player.game.winner:
+        raise RuleIssue('The game is ended',
+                        '%s already won the game' % player.game.winner.name)
+
     # check player can buy the building
     if player.turn_gold < type.cost:
         raise RuleIssue('The player must have enough gold to cover the cost for the new buildings.',
@@ -104,11 +109,33 @@ def add_type(player, node, type):
         node.save()
 
 
+def is_game_finished(game):
+    finished_decks = 0
+    for deck in game.decks.filter(nb__lte=0):
+        finished_decks += 1
+        if deck.type.mandatory:
+            return True
+    return finished_decks >= 3
+
+
 def end_turn(game, player):
     if player != game.current_player or player.game != game:
         raise Exception('%s is not current player %s' % (player.name, game.current_player.name))
 
+    # check game is not finished
+    if game.winner:
+        raise RuleIssue('The game is ended',
+                        '%s already won the game' % player.game.winner.name)
+
     # TODO recompute victory points?
+
+    # detect game is finished
+    if is_game_finished(game):
+        game.current_player = None
+        game.winner = game.player_set.order_by('-points', '-gold', 'id').first()
+        game.save()
+        player.save()
+        return
 
     # recompute gold
     # Current logic is that every turn the player restart with all the gold he paid,
