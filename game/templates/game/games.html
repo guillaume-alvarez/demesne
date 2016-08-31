@@ -11,6 +11,34 @@
         {% endfor %}
     </div>
 
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="startGameModal">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="modal-title">Game Options</h4>
+          </div>
+          <div class="modal-body" id="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="gameName" class="control-label">Name of game:</label>
+                <input class="form-control" id="gameName" required>
+              </div>
+              <div class="form-group">
+                <label for="playerNumber" class="control-label">Number of players :</label>
+                <input type="number" class="form-control" id="playerNumber" required>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer" id="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" id="modalGameStart">START</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
 {% endblock %}
 
 
@@ -23,9 +51,18 @@
     <script type="text/javascript" src="{% static 'game/js/components/TypeChooser.js' %}"></script>
 
 <script>
-
+    $("#startGameModal").modal('hide');
     $("#gameStartBtn").click(function(){
-        Actions.startGame(4, 'some game at ' + Date.now());
+        $("#startGameModal").modal('show');
+    });
+
+    $("#modalGameStart").click(function(){
+        var nbPlayers = $("#playerNumber").val();
+        var gameName = $("#gameName").val();
+        // START THE GAME
+        if(nbPlayers && gameName){
+            Actions.startGame(nbPlayers, gameName);
+        }
     });
 </script>
 {% endblock %}
