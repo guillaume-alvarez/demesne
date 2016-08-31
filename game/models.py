@@ -78,7 +78,7 @@ class Node(models.Model):
     def __repr__(self):
         return self.__str__()
 
-    neighbours_delta = [(x, y) for x in range(-1, 1) for y in range(-1, 1)]
+    neighbours_delta = [(x, y) for x in range(-1, 2) for y in range(-1, 2)]
     neighbours_delta.remove((0, 0))
 
     def neighbours(self):
