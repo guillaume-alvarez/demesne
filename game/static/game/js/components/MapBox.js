@@ -107,16 +107,6 @@ function formatInfo(places){
     return info;
 }
 
-function initButton() {
-    var button = $("<button id='startgame'>START GAME</button>").addClass("btn btn-success btn-lg").attr("type","button");
-    button.click(function() { // Note this is a function
-        Actions.startGame(4, 'some game at ' + Date.now());
-    });
-    map.empty();
-    map.append(button);
-}
-
-initButton();
 MAP_STORE.addListener(mapChanged);
 
 

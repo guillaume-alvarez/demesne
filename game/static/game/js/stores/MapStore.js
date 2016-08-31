@@ -44,8 +44,12 @@ MapStore.prototype.handle = function (event) {
                 map_height: size,
                 map_width: size,
             }
-            Api.createData('games', data, Actions.ACTION_LOADED_GAME, {});
+            Api.createData('games', data, Actions.ACTION_GAME_CREATED, {});
             // then wait until answer to start the game, do not update the store now
+            return true;
+
+        case Actions.ACTION_GAME_CREATED:
+            window.location.href = "/games/"+event.response.id
             return true;
 
         case Actions.ACTION_LOADED_GAME:

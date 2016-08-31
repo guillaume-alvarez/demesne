@@ -6,6 +6,7 @@ var Actions = {
     ACTION_LOADED_NODE: "ACTION_LOADED_NODE",
     ACTION_LOADED_PLAYER: "ACTION_LOADED_PLAYER",
     ACTION_END_TURN: "ACTION_END_TURN",
+    ACTION_GAME_CREATED: "ACTION_GAME_CREATED",
 
   /**
    * @param  {integer} playersNumber number of players for the game

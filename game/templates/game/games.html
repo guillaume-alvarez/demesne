@@ -4,7 +4,7 @@
 
 {% block content %}
     <div class="col-md-12">
-        <button class="btn btn-success">CREATE A NEW GAME</button>
+        <button id="gameStartBtn" class="btn btn-success">CREATE A NEW GAME</button>
         <div class="list-group">
         {% for game in game_list %}
             <a href="/games/{{ game.id }}" class="list-group-item">{{ game.name }}<span class="badge">ID {{ game.id }}</span></a>
@@ -15,5 +15,17 @@
 
 
 {% block scripts %}
+<script type="text/javascript" src="{% static 'game/js/stores/PlayersStore.js' %}"></script>
+    <script type="text/javascript" src="{% static 'game/js/stores/MapStore.js' %}"></script>
+    <script type="text/javascript" src="{% static 'game/js/stores/TypesStore.js' %}"></script>
+    <script type="text/javascript" src="{% static 'game/js/components/PlayersBox.js' %}"></script>
+    <script type="text/javascript" src="{% static 'game/js/components/MapBox.js' %}"></script>
+    <script type="text/javascript" src="{% static 'game/js/components/TypeChooser.js' %}"></script>
 
+<script>
+
+    $("#gameStartBtn").click(function(){
+        Actions.startGame(4, 'some game at ' + Date.now());
+    });
+</script>
 {% endblock %}

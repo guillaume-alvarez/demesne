@@ -6,11 +6,6 @@ log = logging.getLogger(__name__)
 
 # Create your views here.
 
-
-def index(request):
-    return render(request, 'game/main.html')
-
-
 def load_game(request, game_id):
     game = get_object_or_404(Game, pk=game_id)
     context = { 'game_id': game.id, }
