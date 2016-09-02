@@ -20,8 +20,11 @@ function typeChanged(event) {
     // les cartes ne sont pas les mêmes
     // suppression des cartes avec need_slot = false si asked pointe sur quelque chose
     // sinon l'inverse
-    var types = TYPES_STORE.typesArray().filter(function(value){
+    var types = TYPES_STORE.typesArray()
+    .filter(function (value) {
         return (asked.x === undefined && asked.y === undefined) != value.need_slot;
+    }).sort(function (t1, t2) {
+        return t1.cost - t2.cost;
     });
 
     var table = $('<table class="table table-bordered" >');
