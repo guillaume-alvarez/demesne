@@ -48,7 +48,7 @@ TypesStore.prototype.handle = function (event) {
 
         case Actions.ACTION_ASK_TYPES:
             // user need the list of types, make sure it is up-to-date
-            TYPES_STORE._askedNode = {x:event.x, y:event.y};
+            TYPES_STORE._askedNode = {x:event.x, y:event.y, categories:event.categories};
             break;
 
         case Actions.ACTION_SELECT_TYPE:

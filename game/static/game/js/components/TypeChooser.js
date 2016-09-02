@@ -12,7 +12,7 @@ function typeChanged(event) {
     function onclick(type) {
         return function() {
             console.log('Selected type %s for node at (%d, %d)', type.slug, asked.x, asked.y);
-            Actions.selectType(asked.x, asked.y, type);
+            Actions.selectType(asked.x, asked.y, type.slug);
         };
     }
 
@@ -28,9 +28,9 @@ function typeChanged(event) {
     });
 
     var table = $('<table class="table table-bordered" >');
-    var trBuildings = $("<tr>");
-    var trPrestige = $("<tr>");
-    for (var i = 0; i < types.length; i++){
+    var trBuildings = $.inArray('B', asked.categories) >= 0 ? $("<tr>") : $('<tr class="greyout">');
+    var trPrestige = $.inArray('P', asked.categories) >= 0 ? $("<tr>") : $('<tr class="greyout">');
+    for (var i = 0; i < types.length; i++) {
         var td = $('<td>');
         var type = types[i];
         var remaining = TYPES_STORE.remaining(type.slug);

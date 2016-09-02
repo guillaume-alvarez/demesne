@@ -5,10 +5,10 @@ function mapChanged(event) {
     // update name
     $("#gameName").text(MAP_STORE.name());
 
-    function onclick(x, y) {
+    function onclick(x, y, categories) {
         return function() {
-            console.log('Ask type to set for node at (%d, %d)', x, y);
-            Actions.askType(x, y);
+            console.log('Ask type to set for node at (%d, %d): %s', x, y, categories);
+            Actions.askType(x, y, categories);
         };
     }
 
@@ -71,8 +71,11 @@ function mapChanged(event) {
             }
 
             // let select a type for free nodes
-            if ((nbBuildings < maxBuildings || nbPrestige < maxPrestige) && (!player || player.id == PLAYERS_STORE.active())) {
-                td.click(onclick(x, y));
+            var categories = [];
+            if (nbBuildings < maxBuildings) categories.push('B');
+            if (nbPrestige < maxPrestige) categories.push('P');
+            if (categories.length > 0 && (!player || player.id == PLAYERS_STORE.active())) {
+                td.click(onclick(x, y, categories));
             }
         }
         table.append(tr);

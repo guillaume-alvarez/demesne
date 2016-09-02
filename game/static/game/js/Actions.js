@@ -23,12 +23,14 @@ var Actions = {
   /**
    * @param  {integer} x coordinate of the node player must choose a type for
    * @param  {integer} y coordinate of the node player must choose a type for
+   * @param  {string array} categories list the types categories expected here
    */
-  askType: function(x, y) {
+  askType: function(x, y, categories) {
     AppDispatcher.dispatch({
         actionType: this.ACTION_ASK_TYPES,
         x: x,
         y: y,
+        categories: categories,
     });
   },
 
