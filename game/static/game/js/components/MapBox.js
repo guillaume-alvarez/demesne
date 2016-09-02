@@ -48,23 +48,30 @@ function mapChanged(event) {
             });
 
             // calculate slots and total gold
-            var slotsRemaining = 1;
-            var maxSlots = 1;
+            var nbBuildings = 0;
+            var nbPrestige = 0;
+            var maxBuildings = 1;
+            var maxPrestige = 1;
             var totalGold = 0;
             if(places){
                 $.each(places,function(index,type){
-                    maxSlots = maxSlots + type.add_slot;
-                    slotsRemaining = slotsRemaining - 1 + type.add_slot;
+                    maxBuildings += type.add_building;
+                    maxPrestige += type.add_prestige;
+
+                    if (type.category == 'B') nbBuildings++;
+                    else if (type.category == 'P') nbPrestige++;
+
                     totalGold = totalGold + type.add_gold;
                 });
             }
-            td.children(".node").append("<span class='bottom-right"+(slotsRemaining == 0?" no-more":"")+"'>"+slotsRemaining+"/"+maxSlots+"</span>");
+            td.children(".node").append("<span class='bottom-right"+(nbBuildings == maxBuildings?" no-more":"")+"'>"+(maxBuildings-nbBuildings)+"/"+maxBuildings+"</span>");
+            td.children(".node").append("<span class='bottom-left"+(nbPrestige == maxPrestige?" no-more":"")+"'>"+(maxPrestige-nbPrestige)+"/"+maxPrestige+"</span>");
             if(node){
                 td.children(".node").append("<span class='up-right gold'>+"+totalGold+"<i class='fa fa-money'></i></span>");
             }
 
             // let select a type for free nodes
-            if (slotsRemaining > 0 && (!player || player.id == PLAYERS_STORE.active())) {
+            if ((nbBuildings < maxBuildings || nbPrestige < maxPrestige) && (!player || player.id == PLAYERS_STORE.active())) {
                 td.click(onclick(x, y));
             }
         }
@@ -77,7 +84,8 @@ function mapChanged(event) {
 
 function formatType(type) {
     var info = "<strong>"
-        + (type.add_slot >0?"<span class='slot'>+"+type.add_slot+" SLOT</span><br>":"")
+        + (type.add_building >0?"<span class='slot'>+"+type.add_building+" buildings</span><br>":"")
+        + (type.add_prestige >0?"<span class='slot'>+"+type.add_prestige+" prestige</span><br>":"")
         + (type.add_gold >0?"<span class='gold'>+"+type.add_gold+" <i class='fa fa-money'></i></span><br>":"")
         + (type.add_buy >0?"<span class='buy'>+"+type.add_buy+" BUY</span><br>":"")
         + (type.add_points >0?"<span class='victory'>+"+type.add_points+" POINTS</span><br>":"");

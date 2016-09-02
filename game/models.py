@@ -11,19 +11,35 @@ class Type(models.Model):
     start_number = models.IntegerField(default=10, help_text='Number of times this type can be bought in a game.')
     end_game = models.BooleanField(default=False, help_text='The game ends when this type can no longer be bought.')
     cost = models.IntegerField()
-    add_slot = models.IntegerField(default=0)
+    add_building = models.IntegerField(default=0)
+    add_prestige = models.IntegerField(default=0)
     add_gold = models.IntegerField(default=0)
     add_points = models.IntegerField(default=0)
     add_buy = models.IntegerField(default=0)
-    add_move = models.IntegerField(default=0)
     special_effects = models.CharField(max_length=128, null=True)
     need_slot = models.BooleanField(default=True)
+
+    BUILDING = 'B'
+    PRESTIGE = 'P'
+    CATEGORIES = (
+        (BUILDING, 'Building'),
+        (PRESTIGE, 'Prestige'),
+    )
+    category = models.CharField(max_length=1, choices=CATEGORIES, default=BUILDING)
 
     def __str__(self):
         return self.name
 
     def __repr__(self):
         return self.__str__()
+
+    def add_slot_for(self, other):
+        if other.category is Type.BUILDING:
+            return self.add_building
+        elif other.category is Type.PRESTIGE:
+            return self.add_prestige
+        else:
+            return 0
 
 
 class Game(models.Model):

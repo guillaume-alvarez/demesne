@@ -93,7 +93,7 @@ def add_type(player, node, type):
             # count the number of available slots
             available = 1
             for p in node.places.all():
-                available += p.add_slot - 1
+                available += p.add_slot_for(type) - 1
             if available < 1:
                 raise RuleIssue('There must be an empty slot on a node to add a building.',
                                 'Already placed: %s' % node.places.all())
