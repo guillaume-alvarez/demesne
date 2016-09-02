@@ -11,28 +11,26 @@ function typeChanged(event) {
 
     function onclick(type) {
         return function() {
-            console.log('Selected type %s for node at (%d, %d)', type, asked.x, asked.y);
+            console.log('Selected type %s for node at (%d, %d)', type.slug, asked.x, asked.y);
             Actions.selectType(asked.x, asked.y, type);
         };
     }
 
     // suivant si on cherche a poser une carte sur un noeud ou pas
     // les cartes ne sont pas les mêmes
-    var names = TYPES_STORE.typesArray();
-
     // suppression des cartes avec need_slot = false si asked pointe sur quelque chose
     // sinon l'inverse
-    names = names.filter(function(value){
+    var types = TYPES_STORE.typesArray().filter(function(value){
         return (asked.x === undefined && asked.y === undefined) != value.need_slot;
     });
-    names = $.map(names,function(value,index){return value.slug;});
 
     var table = $('<table class="table table-bordered" >');
-    var tr = $("<tr>");
-    for (var i = 0; i < names.length; i++){
+    var trBuildings = $("<tr>");
+    var trPrestige = $("<tr>");
+    for (var i = 0; i < types.length; i++){
         var td = $('<td>');
-        var type = TYPES_STORE.type(names[i]);
-        var remaining = TYPES_STORE.remaining(names[i]);
+        var type = types[i];
+        var remaining = TYPES_STORE.remaining(type.slug);
         var text = '<div class="type"><img src="'+window.staticUrl+'img/'+type.slug+'.jpg"></div>';
         var cost = "<span class='gold'>"+type.cost+"&nbsp;<i class='fa fa-money'></i></span>";
 
@@ -48,14 +46,21 @@ function typeChanged(event) {
         });
         if (remaining > 0) {
             td.html(text + "<p>"+cost+"</p>");
-            td.click(onclick(names[i]));
+            td.click(onclick(type));
         } else {
             td.html('<div class="greyout">'+text+'<p>'+cost+'</p></div>');
         }
 
-        tr.append(td);
+        if (type.category == 'P')
+            trPrestige.append(td);
+        else if (type.category == 'B')
+            trBuildings.append(td);
     }
-    table.append(tr);
+    var width = Math.max(trBuildings.children().length, trPrestige.children().length);
+    table.append($('<tr><td colspan="'+width+'"><strong>Buildings</strong></td></tr>'));
+    table.append(trBuildings);
+    table.append($('<tr><td colspan="'+width+'"><strong>Prestige</strong></td></tr>'));
+    table.append(trPrestige);
 
     $("#modal-body").empty().append(table);
     $("#modal-title").text('Which type do you want to use?');
