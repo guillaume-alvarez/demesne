@@ -9,6 +9,7 @@
         {% for game in game_list %}
             <a href="/games/{{ game.id }}" class="list-group-item">{{ game.name }}<span class="badge">ID {{ game.id }}</span></a>
         {% endfor %}
+        </div>
     </div>
 
 
@@ -43,7 +44,8 @@
 
 
 {% block scripts %}
-<script type="text/javascript" src="{% static 'game/js/stores/PlayersStore.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'game/js/stores/PlayersStore.js' %}"></script>
     <script type="text/javascript" src="{% static 'game/js/stores/MapStore.js' %}"></script>
     <script type="text/javascript" src="{% static 'game/js/stores/TypesStore.js' %}"></script>
     <script type="text/javascript" src="{% static 'game/js/components/PlayersBox.js' %}"></script>
@@ -65,4 +67,5 @@
         }
     });
 </script>
+
 {% endblock %}
