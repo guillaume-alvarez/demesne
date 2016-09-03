@@ -53,6 +53,7 @@ function mapChanged(event) {
             var maxBuildings = 1;
             var maxPrestige = 1;
             var totalGold = 0;
+            var totalVictory = 0;
             if(places){
                 $.each(places,function(index,type){
                     maxBuildings += type.add_building;
@@ -61,13 +62,15 @@ function mapChanged(event) {
                     if (type.category == 'B') nbBuildings++;
                     else if (type.category == 'P') nbPrestige++;
 
-                    totalGold = totalGold + type.add_gold;
+                    totalGold += type.add_gold;
+                    totalVictory += type.add_points;
                 });
             }
             td.children(".node").append("<span class='bottom-right"+(nbBuildings == maxBuildings?" no-more":"")+"'>"+(maxBuildings-nbBuildings)+"/"+maxBuildings+"</span>");
             td.children(".node").append("<span class='bottom-left"+(nbPrestige == maxPrestige?" no-more":"")+"'>"+(maxPrestige-nbPrestige)+"/"+maxPrestige+"</span>");
-            if(node){
-                td.children(".node").append("<span class='up-right gold'>+"+totalGold+"<i class='fa fa-money'></i></span>");
+            if (node) {
+                if (totalGold != 0) td.children(".node").append("<span class='up-right gold'>+"+totalGold+"<i class='fa fa-money'></i></span>");
+                if (totalVictory != 0) td.children(".node").append("<span class='up-left victory'>+"+totalVictory+"<i class='fa fa-shield'></i></span>");
             }
 
             // let select a type for free nodes
@@ -91,7 +94,7 @@ function formatType(type) {
         + (type.add_prestige >0?"<span class='slot'>+"+type.add_prestige+" prestige</span><br>":"")
         + (type.add_gold >0?"<span class='gold'>+"+type.add_gold+" <i class='fa fa-money'></i></span><br>":"")
         + (type.add_buy >0?"<span class='buy'>+"+type.add_buy+" BUY</span><br>":"")
-        + (type.add_points >0?"<span class='victory'>+"+type.add_points+" POINTS</span><br>":"");
+        + (type.add_points >0?"<span class='victory'>+"+type.add_points+"  <i class='fa fa-shield'></i></span><br>":"");
     if (type.description) info += "<em>"+type.description+"</em>";
     info = info + "</strong>"
     return info;
