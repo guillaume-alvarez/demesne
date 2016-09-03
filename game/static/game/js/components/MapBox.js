@@ -17,11 +17,15 @@ function mapChanged(event) {
         var tr = $("<tr>");
         for (var y = 0; y < MAP_STORE.size(); y++){
             var td = $('<td>');
-            var places = MAP_STORE.node(x, y).places;
-            var node = places ? places[0] : null;
-            var player = MAP_STORE.node(x,y).player;
+            var node = MAP_STORE.node(x, y);
+            var places = node.places;
+            var type = places ? places[0] : null;
+            var player = node.player;
 
-            var nodeClasses = "node "+((places && places.length > 1)?"multiple":"");
+            var nodeClasses = "node";
+            if (places && places.length > 1) nodeClasses += " multiple";
+            if (!node.active) nodeClasses += " greyout";
+
             // add the color to the tile
             var color = "";
             if(player){
@@ -29,13 +33,13 @@ function mapChanged(event) {
                 td.attr("style","background:"+color+";");
             }
 
-            var text = node ?
-                '<div class="'+nodeClasses+'"><img src="'+window.staticUrl+'img/'+node.slug+'.jpg"></div>'
+            var text = type ?
+                '<div class="'+nodeClasses+'"><img src="'+window.staticUrl+'img/'+type.slug+'.jpg"></div>'
                 : '<div class="node">empty</div>';
             td.html(text);
             tr.append(td);
             // add popover
-            var title = node?((places && places.length > 1) ?'Multiple cards':node.name):'Empty tile';
+            var title = type?((places && places.length > 1) ?'Multiple cards':type.name):'Empty tile';
             td.attr("title",title);
 
             td.popover({
@@ -54,8 +58,8 @@ function mapChanged(event) {
             var maxPrestige = 1;
             var totalGold = 0;
             var totalVictory = 0;
-            if(places){
-                $.each(places,function(index,type){
+            if (places) {
+                $.each(places, function(index,type){
                     maxBuildings += type.add_building;
                     maxPrestige += type.add_prestige;
 
@@ -68,7 +72,7 @@ function mapChanged(event) {
             }
             td.children(".node").append("<span class='bottom-right"+(nbBuildings == maxBuildings?" no-more":"")+"'>"+(maxBuildings-nbBuildings)+"/"+maxBuildings+"</span>");
             td.children(".node").append("<span class='bottom-left"+(nbPrestige == maxPrestige?" no-more":"")+"'>"+(maxPrestige-nbPrestige)+"/"+maxPrestige+"</span>");
-            if (node) {
+            if (type) {
                 if (totalGold != 0) td.children(".node").append("<span class='up-right gold'>+"+totalGold+"<i class='fa fa-money'></i></span>");
                 if (totalVictory != 0) td.children(".node").append("<span class='up-left victory'>+"+totalVictory+"<i class='fa fa-shield'></i></span>");
             }
