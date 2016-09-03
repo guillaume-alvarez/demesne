@@ -16,7 +16,6 @@ function playersChanged(event) {
             +    '<ul class="list-group">'
             +      '<li class="list-group-item gold">Gold: '+player.turn_gold+'/'+player.gold+' <i class="fa fa-money"></i></li>'
             +      '<li class="list-group-item victory">Victory points: '+player.points+'</li>'
-            +       ((player.turn_buy > 0 && active==player.id)? '<li class="list-group-item"><button class="btn btn-warning" id="buyGoldOrVp" >BUY MONEY OR POINTS</button></li>':'')
             +      '<li class="list-group-item">Can buy '+player.turn_buy+' items this turn.</li>';
         if (active==player.id) {
             html += '<li class="list-group-item">'
@@ -27,11 +26,6 @@ function playersChanged(event) {
              +'</div>';
         var panel = $(html);
         players_dom.append(panel);
-
-        $("#buyGoldOrVp").click(function(){
-            console.log('Ask gold and vp types');
-            Actions.askType();
-        });
     }
 
 }
