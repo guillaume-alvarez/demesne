@@ -121,6 +121,13 @@ def is_game_finished(game):
     return finished_decks >= 3
 
 
+def apply_militia(node):
+    for neighbour in node.neighbours():
+        if neighbour != node and neighbour.player != node.player:
+            neighbour.active = neighbour.places.filter(special_effects__contains='moat').exists()
+            neighbour.save()
+
+
 def end_turn(game, player):
     if player != game.current_player or player.game != game:
         raise Exception('%s is not current player %s' % (player.name, game.current_player.name))
@@ -129,6 +136,13 @@ def end_turn(game, player):
     if game.winner:
         raise RuleIssue('The game is ended',
                         '%s already won the game' % player.game.winner.name)
+
+    # check special effects applying across players
+    special_effects = set(Place.objects.filter(node__game_id=game.id, type__special_effects__isnull=False).values_list('type__special_effects', flat=True))
+    if 'militia' in special_effects:
+        for node in game.node_set.all():
+            if node.places.filter(special_effects__contains='militia').exists():
+                apply_militia(node)
 
     # recompute victory points from cards
     player.points = Player.INITIAL_POINTS

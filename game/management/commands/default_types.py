@@ -20,8 +20,10 @@ class Command(BaseCommand):
         Type.objects.bulk_create([
             Type(name="Market", slug="market", cost=5, add_building=1, add_gold=1, add_buy=1, add_prestige=1),
             Type(name="Blacksmith", slug="blacksmith", cost=4, add_prestige=3),
-            Type(name="Militia", slug="militia", cost=4, add_gold=2, special_effects="militia"),
-            Type(name="Moat", slug="moat", cost=2, add_prestige=2, special_effects="moat"),
+            Type(name="Militia", slug="militia", cost=4, add_gold=2, special_effects="militia",
+                 description='Prevent other players neighboring nodes from producing any money or victory points.'),
+            Type(name="Moat", slug="moat", cost=2, add_prestige=2, special_effects="moat",
+                 description='Protect against militia effects.'),
             Type(name="Council Room", slug="council_room", cost=5, add_buy=1, add_prestige=4),
             Type(name="Lumberjack", slug="lumberjack", cost=3, add_buy=1, add_gold=2),
             Type(name="Festival", slug="festival", cost=5, add_building=2, add_buy=1, add_gold=2),
