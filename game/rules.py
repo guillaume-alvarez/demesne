@@ -63,6 +63,7 @@ def add_type(player, node, type):
         if type.need_slot:
             raise RuleIssue('This card must be placed on a node.',
                             '%s must be placed on the map.' % (type.name))
+        # TODO may be removed now that gold and points types are placed on map
         player.gold += type.add_gold
         player.points += type.add_points
 
@@ -127,7 +128,27 @@ def end_turn(game, player):
         raise RuleIssue('The game is ended',
                         '%s already won the game' % player.game.winner.name)
 
-    # TODO recompute victory points?
+    # recompute victory points from cards
+    player.points = Player.INITIAL_POINTS
+    for node in player.node_set.all():
+        if node.active:
+            for p in node.places.all():
+                player.points += p.add_points
+
+    # recompute gold from cards
+    player.gold = Player.INITIAL_GOLD
+    for node in player.node_set.all():
+        if node.active:
+            for p in node.places.all():
+                player.gold += p.add_gold
+    player.turn_gold = player.gold
+
+    # recompute rights to buy from cards
+    player.turn_buy = Player.INITIAL_BUY
+    for node in player.node_set.all():
+        if node.active:
+            for p in node.places.all():
+                player.turn_buy += p.add_buy
 
     # detect game is finished
     if is_game_finished(game):
@@ -136,23 +157,6 @@ def end_turn(game, player):
         game.save()
         player.save()
         return
-
-    # recompute gold
-    # Current logic is that every turn the player restart with all the gold he paid,
-    # minus the cost for his victory points. It means that buying points early will hinder
-    # development. However you can't know exactly how long the game will last.
-    player.turn_gold = player.gold - player.points
-    for node in player.node_set.all():
-        if node.active:
-            for p in node.places.all():
-                player.turn_gold += p.add_gold
-
-    # recompute rights to buy from cards
-    player.turn_buy = Player.INITIAL_BUY
-    for node in player.node_set.all():
-        if node.active:
-            for p in node.places.all():
-                player.turn_buy += p.add_buy
 
     # set game to next player
     players = Player.objects.filter(game_id=player.game_id).order_by('id')

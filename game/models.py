@@ -66,8 +66,8 @@ class Deck(models.Model):
 
 class Player(models.Model):
     INITIAL_BUY = 1
-    INITIAL_GOLD = 7
-    INITIAL_POINTS = 3
+    INITIAL_GOLD = 3
+    INITIAL_POINTS = 0
 
     name = models.CharField(max_length=128, db_index=True, unique=True)
     game = models.ForeignKey(Game)
