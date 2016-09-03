@@ -59,6 +59,8 @@
 <script>
     $("#startGameModal").modal('hide');
     $("#gameStartBtn").click(function(){
+        $("#gameName").attr('value', 'game ' + Date.now());
+        $("#playerNumber").attr('value', '4');
         $("#startGameModal").modal('show');
     });
 
