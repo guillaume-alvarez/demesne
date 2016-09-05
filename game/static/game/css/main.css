@@ -13,13 +13,19 @@
 }
 
 .node {
-  width: 102px;
-  max-width: 102px;
-  height: 158px;
-  max-height: 158px;
   margin: auto;
   padding: 2px;
   position: relative;
+}
+
+.node-right {
+    width: 50%;
+    float: right;
+}
+
+.node-left {
+    width: 50%;
+    float: left;
 }
 
 .bottom-right {
@@ -27,44 +33,31 @@
     right:    4px;
     bottom:   2px;
     padding: 2px;
-    font-size: 20px;
-    font-weight: bold;
-    color: #2a3b6f;
-    background: rgba(255,255,255,0.6);
-    border-radius: 25px;
 }
 
 .bottom-left {
     position: absolute;
     left:    4px;
     bottom:   2px;
-    padding: 2px;
-    font-size: 20px;
-    font-weight: bold;
-    color: #2a3b6f;
-    background: rgba(255,255,255,0.6);
-    border-radius: 25px;
 }
 
 .up-right {
     position: absolute;
     right:    4px;
     top:   4px;
-    padding: 2px;
-    font-size: 20px;
-    font-weight: bold;
-    background: rgba(255,255,255,0.6);
-    text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 1px 0 #000, 0 -1px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
-    border-radius: 25px;
+
 }
 
 .up-left {
     position: absolute;
     left:    4px;
-    top:   4px;
-    padding: 2px;
-    font-size: 20px;
+    top:   30%;
+}
+
+.bottom-left, .bottom-right, .up-right, .up-left {
+    font-size: 18px;
     font-weight: bold;
+    padding: 2px;
     background: rgba(255,255,255,0.6);
     text-shadow: 1px 0 0 #000, -1px 0 0 #000, 0 1px 0 #000, 0 -1px 0 #000, 1px 1px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000;
     border-radius: 25px;
