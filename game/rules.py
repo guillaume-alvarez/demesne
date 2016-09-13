@@ -111,6 +111,25 @@ def add_type(player, node, type):
     if node:
         node.save()
 
+    # check for special effects
+    if type.special_effects and 'militia' in type.special_effects:
+        for neighbour in node.neighbours():
+            if neighbour != node and neighbour.player and neighbour.player != node.player:
+                if not neighbour.places.filter(special_effects__contains='moat').exists():
+                    changed = False
+                    for p in neighbour.place_set.all():
+                        if p.type.category == Type.PRESTIGE and p.type.add_gold > 0:
+                            neighbour.player.gold -= p.type.add_gold
+                            neighbour.player.turn_gold -= p.type.add_gold
+                            neighbour.player.turn_buy -= p.type.add_buy
+                            neighbour.player.points -= p.type.add_points
+                            p.delete()
+                            changed = True
+                    if changed:
+                        neighbour.player.save()
+                        if not neighbour.place_set.exists():
+                            neighbour.player = None
+
 
 def is_game_finished(game):
     finished_decks = 0
@@ -121,13 +140,6 @@ def is_game_finished(game):
     return finished_decks >= 3
 
 
-def apply_militia(node):
-    for neighbour in node.neighbours():
-        if neighbour != node and neighbour.player != node.player:
-            neighbour.active = neighbour.places.filter(special_effects__contains='moat').exists()
-            neighbour.save()
-
-
 def end_turn(game, player):
     if player != game.current_player or player.game != game:
         raise Exception('%s is not current player %s' % (player.name, game.current_player.name))
@@ -136,13 +148,6 @@ def end_turn(game, player):
     if game.winner:
         raise RuleIssue('The game is ended',
                         '%s already won the game' % player.game.winner.name)
-
-    # check special effects applying across players
-    special_effects = set(Place.objects.filter(node__game_id=game.id, type__special_effects__isnull=False).values_list('type__special_effects', flat=True))
-    if 'militia' in special_effects:
-        for node in game.node_set.all():
-            if node.places.filter(special_effects__contains='militia').exists():
-                apply_militia(node)
 
     # recompute victory points from cards
     player.points = Player.INITIAL_POINTS

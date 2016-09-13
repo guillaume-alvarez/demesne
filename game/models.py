@@ -105,7 +105,7 @@ class Node(models.Model):
         for (dx, dy) in Node.neighbours_delta:
             nx = dx + self.x
             ny = dy + self.y
-            if 0 <= nx <= self.game.map_width and 0 <= ny <= self.game.map_height:
+            if 0 <= nx < self.game.map_width and 0 <= ny < self.game.map_height:
                 yield Node.objects.get(game_id=self.game_id, x=nx, y=ny)
 
 
