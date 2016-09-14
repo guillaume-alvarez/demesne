@@ -67,14 +67,16 @@ MapStore.prototype.handle = function (event) {
             break;
 
         case Actions.ACTION_SELECT_TYPE:
-            if(event.x !== undefined){
+            if (event.x !== undefined) {
                 var node = MAP_STORE._nodes[event.x][event.y];
                 var data = {type: event.selected, player: PLAYERS_STORE.active()};
-                Api.updateData('nodes', node.id + '/add_type', data, Actions.ACTION_LOADED_NODE, {});
-            }else{
+                var params = {type: event.selected};
+                Api.updateData('nodes', node.id + '/add_type', data, Actions.ACTION_LOADED_NODE, params);
+            } else {
                 // add gold or VP
                 var data = {type: event.selected};
-                Api.updateData('players', PLAYERS_STORE.active() + '/add_type', data, Actions.ACTION_LOADED_PLAYER, {});
+                var params = {type: event.selected};
+                Api.updateData('players', PLAYERS_STORE.active() + '/add_type', data, Actions.ACTION_LOADED_PLAYER, params);
             }
             MAP_STORE._askedNode = null;
             return true;
@@ -84,7 +86,12 @@ MapStore.prototype.handle = function (event) {
                 console.log('Could not update node: ' + JSON.stringify(event.error));
                 return true;
             }
-            MAP_STORE._nodes[event.response.x][event.response.y] = event.response;
+            var node = event.response;
+            MAP_STORE._nodes[node.x][node.y] = node;
+            // in case there is a special effect, other nodes may be updated
+            if (TYPES_STORE.type(event.queryParams.type).special_effects) {
+                Api.getData('games', node.game, data, Actions.ACTION_LOADED_GAME, {});
+            }
             break;
 
         default:
