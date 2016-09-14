@@ -129,6 +129,7 @@ def add_type(player, node, type):
                         neighbour.player.save()
                         if not neighbour.place_set.exists():
                             neighbour.player = None
+                            neighbour.save()
 
 
 def is_game_finished(game):
