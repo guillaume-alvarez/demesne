@@ -1,4 +1,11 @@
 
+#logout-btn {
+    position: absolute;
+    top : 0;
+    right : 0;
+    padding : 20px;
+}
+
 /* used to have a footer with status
  * http://getbootstrap.com/examples/sticky-footer-navbar/sticky-footer-navbar.css
  */

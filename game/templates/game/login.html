@@ -45,7 +45,7 @@
                         <p class="bs-component">
                             <center>
                                 <input class="btn btn-success btn-sm" type="submit" value="login" />
-                                <input class="btn btn-primary btn-sm" type="submit" value="register" />
+                                <input id="register" class="btn btn-primary btn-sm" type="submit" value="register" />
                             </center>
                         </p>
                         <input type="hidden" name="next" value="{{ next }}" />
@@ -60,5 +60,18 @@
 
 
 {% block scripts %}
+<script>
+$("#register").click(function(e){
+    e.preventDefault();
+    $.ajax({
+        url: "/createUser/",
+        data : {login : $("#id_username").val(), password : $("#id_password").val()},
+        method : "GET",
+        success : function(){
+            $("div.container").before("<p>User created successfully. Login with it now !</p>");
+        }
+    });
+});
+</script>
 
 {% endblock %}
