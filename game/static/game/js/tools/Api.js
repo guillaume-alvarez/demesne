@@ -50,6 +50,22 @@ function makeDigestFun(action, params) {
     };
 }
 
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
 // a simple get request
 function get(url) {
     return superagent
@@ -61,21 +77,25 @@ function get(url) {
 }
 
 function post(url, data) {
+    var csrftoken = getCookie('csrftoken');
     return superagent
         .post(url)
         .send(data)
         .set('Accept', 'application/json')
         .set('Accept-Encoding', 'gzip, deflate')
+        .set("X-CSRFToken", csrftoken)
         .timeout(TIMEOUT)
         .query();
 }
 
 function patch(url, data) {
+    var csrftoken = getCookie('csrftoken');
     return superagent
         .patch(url)
         .send(data)
         .set('Accept', 'application/json')
         .set('Accept-Encoding', 'gzip, deflate')
+        .set("X-CSRFToken", csrftoken)
         .timeout(TIMEOUT)
         .query();
 }
