@@ -47,7 +47,7 @@ function typeChanged(event) {
             placement:"bottom",
             html:true
         });
-        if (remaining > 0) {
+        if (remaining > 0 && PLAYERS_STORE.isActivePlayer()) {
             td.html(text + "<p>"+cost+' '+remaining+'/'+type.start_number+"</p>");
             td.click(onclick(type));
         } else {

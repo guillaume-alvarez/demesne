@@ -28,6 +28,11 @@ PlayersStore.prototype.active = function () {
     return this._active;
 };
 
+PlayersStore.prototype.isActivePlayer = function () {
+    var player = this._players[this._active];
+    return player.user == null || player.user == USER.id;
+};
+
 PlayersStore.prototype._updatePlayer = function (player) {
     this._players[player.id] = player;
     if (player.active) {

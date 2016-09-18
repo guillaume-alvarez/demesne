@@ -19,7 +19,7 @@ function playersChanged(event) {
             +      '<li class="list-group-item">Can buy '+player.turn_buy+' items this turn.</li>';
         if (active==player.id) {
             html += '<li class="list-group-item">';
-            if (!player.user || player.user==USER.id)
+            if (PLAYERS_STORE.isActivePlayer())
                  html += '<button class="btn btn-success" id="endturn" type="button" onclick="Actions.endTurn('+active+')">END TURN</button>';
             else
                  html += '<button class="btn btn-success disabled" id="endturn" type="button">END TURN</button>';
