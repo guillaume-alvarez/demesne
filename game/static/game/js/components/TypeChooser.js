@@ -48,10 +48,10 @@ function typeChanged(event) {
             html:true
         });
         if (remaining > 0) {
-            td.html(text + "<p>"+cost+"</p>");
+            td.html(text + "<p>"+cost+' '+remaining+'/'+type.start_number+"</p>");
             td.click(onclick(type));
         } else {
-            td.html('<div class="greyout">'+text+'<p>'+cost+'</p></div>');
+            td.html('<div class="greyout">'+text+'<p>'+cost+' '+remaining+'/'+type.start_number+'</p></div>');
         }
 
         if (type.category == 'P')
