@@ -19,6 +19,7 @@ class TypeSerializer(serializers.ModelSerializer):
 class PlayerSerializer(serializers.ModelSerializer):
     active = serializers.SerializerMethodField()
     winner = serializers.SerializerMethodField()
+    user = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
     class Meta:
         model = Player
@@ -52,6 +53,7 @@ class GameSerializer(serializers.ModelSerializer):
     node_set = NodeSerializer(many=True, read_only=True)
     player_set = PlayerSerializer(many=True, read_only=True)
     decks = DeckSerializer(many=True, read_only=True)
+    owner = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
 
     class Meta:
         model = Game
@@ -65,7 +67,7 @@ class GameViewset(viewsets.ModelViewSet):
     renderer_classes = (renderers.JSONRenderer, )
 
     def perform_create(self, serializer):
-        game = serializer.save()
+        game = serializer.save(owner=self.request.user)
         rules.create_game(game)
 
     @detail_route(methods=['post'])

@@ -34,9 +34,9 @@ def create_game(game):
     # init players
     players = []
     for p in range(game.nb_players):
-        players.append(Player(name='Player%d/%d' % (game.id, p), game=game))
+        players.append(Player(name='%s%d' % (game.owner.get_username(), p), game=game, user=game.owner))
     Player.objects.bulk_create(players)
-    game.current_player = Player.objects.get(name='Player%d/0' % game.id)
+    game.current_player = Player.objects.filter(game_id=game.id).first()
     game.save()
 
 

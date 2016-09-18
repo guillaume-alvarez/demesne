@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 
@@ -44,6 +45,7 @@ class Type(models.Model):
 
 class Game(models.Model):
     name = models.CharField(max_length=128, db_index=True, unique=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
     nb_players = models.IntegerField()
     map_height = models.IntegerField()
     map_width = models.IntegerField()
@@ -69,12 +71,16 @@ class Player(models.Model):
     INITIAL_GOLD = 3
     INITIAL_POINTS = 0
 
-    name = models.CharField(max_length=128, db_index=True, unique=True)
+    name = models.CharField(max_length=128)
     game = models.ForeignKey(Game)
     gold = models.IntegerField(default=INITIAL_GOLD)
     points = models.IntegerField(default=INITIAL_POINTS)
     turn_gold = models.IntegerField(default=INITIAL_GOLD-INITIAL_POINTS)
     turn_buy = models.IntegerField(default=INITIAL_BUY)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
+
+    class Meta:
+        unique_together = index_together = ['game', 'name']
 
     def __str__(self):
         return self.name
