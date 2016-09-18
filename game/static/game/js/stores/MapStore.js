@@ -6,6 +6,8 @@ function MapStore () {
     this._nodes = new Array(0);
     this._size = 0;
     this._name = null;
+    this._reloadToken = null;
+    this._gameId = null;
 };
 MapStore.prototype = Object.create(Store.prototype);
 MapStore.prototype.constructor = MapStore;
@@ -32,6 +34,16 @@ MapStore.prototype._init = function (size, name) {
     }
 }
 
+MapStore.prototype._autoReload = function () {
+    if (this._reloadToken) clearInterval(this._reloadToken);
+    if (this._gameId) {
+        this._reloadToken = setInterval(function(){
+            console.log('Ask to reload game '+MAP_STORE._gameId)
+            Api.getData('games', MAP_STORE._gameId, Actions.ACTION_LOADED_GAME, {});
+        }, 5000);
+    }
+}
+
 MapStore.prototype.handle = function (event) {
 
     switch(event.actionType) {
@@ -49,7 +61,8 @@ MapStore.prototype.handle = function (event) {
             return true;
 
         case Actions.ACTION_GAME_CREATED:
-            window.location.href = "/games/"+event.response.id
+            window.location.href = "/games/"+event.response.id;
+            MAP_STORE._gameId = event.response.id;
             return true;
 
         case Actions.ACTION_LOADED_GAME:
@@ -59,6 +72,8 @@ MapStore.prototype.handle = function (event) {
             }
             var game = event.response;
             console.log('Loaded game: '+JSON.stringify(game))
+            MAP_STORE._gameId = game.id;
+            MAP_STORE._autoReload();
             MAP_STORE._init(game.map_height, game.name);
             for (var i = 0; i<game.node_set.length; i++) {
                 var node = game.node_set[i];
@@ -90,7 +105,7 @@ MapStore.prototype.handle = function (event) {
             MAP_STORE._nodes[node.x][node.y] = node;
             // in case there is a special effect, other nodes may be updated
             if (TYPES_STORE.type(event.queryParams.type).special_effects) {
-                Api.getData('games', node.game, data, Actions.ACTION_LOADED_GAME, {});
+                Api.getData('games', MAP_STORE._gameId, Actions.ACTION_LOADED_GAME, {});
             }
             break;
 
