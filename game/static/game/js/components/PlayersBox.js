@@ -18,9 +18,12 @@ function playersChanged(event) {
             +      '<li class="list-group-item victory">Victory points: '+player.points+'</li>'
             +      '<li class="list-group-item">Can buy '+player.turn_buy+' items this turn.</li>';
         if (active==player.id) {
-            html += '<li class="list-group-item">'
-                 +    '<button class="btn btn-success" id="endturn" type="button" onclick="Actions.endTurn('+active+')">END TURN</button>'
-                 +  '</li>';
+            html += '<li class="list-group-item">';
+            if (!player.user || player.user==USER.id)
+                 html += '<button class="btn btn-success" id="endturn" type="button" onclick="Actions.endTurn('+active+')">END TURN</button>';
+            else
+                 html += '<button class="btn btn-success disabled" id="endturn" type="button">END TURN</button>';
+            html += '</li>';
         }
         html += '</ul>'
              +'</div>';
