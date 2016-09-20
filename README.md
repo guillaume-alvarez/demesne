@@ -31,7 +31,7 @@ python manage.py migrate
 python manage.py default_types
 ```
 
-Note: if you delete the *.py files in game/mùigrations directory it will recreate a new initial state script, which is better until the model is stabilized.
+Note: if you delete the *.py files in game/migrations directory it will recreate a new initial state script, which is better until the model is stabilized.
 
 The other developers will have to pull your changes, clear their database then re-create it:
 
