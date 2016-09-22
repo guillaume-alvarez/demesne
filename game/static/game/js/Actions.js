@@ -12,11 +12,12 @@ var Actions = {
    * @param  {integer} playersNumber number of players for the game
    * @param  {string} name game's unique name
    */
-  startGame: function(playersNumber, name) {
+  startGame: function(playersNumber, name, multiplayer) {
     AppDispatcher.dispatch({
         actionType: this.ACTION_START_GAME,
         playersNumber: playersNumber,
         name: name,
+        multiplayer: multiplayer,
     });
   },
 

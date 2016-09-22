@@ -34,6 +34,14 @@
                 <label for="playerNumber" class="control-label">Number of players :</label>
                 <input type="number" class="form-control" id="playerNumber" required>
               </div>
+              <div class="form-group" id="gameMultiplayer">
+                <div class="radio">
+                  <label><input type="radio" name="multiplayer" value="false" checked>Hotseat: everybody plays on the same login</label>
+                </div>
+                <div class="radio">
+                    <label class="radio"><input type="radio" name="multiplayer" value="true">Multiplayer: each player must have his/her own login</label>
+                </div>
+              </div>
             </form>
           </div>
           <div class="modal-footer" id="modal-footer">
@@ -67,9 +75,10 @@
     $("#modalGameStart").click(function(){
         var nbPlayers = $("#playerNumber").val();
         var gameName = $("#gameName").val();
+        var multiplayer = $('#gameMultiplayer input:radio:checked').val()
         // START THE GAME
         if(nbPlayers && gameName){
-            Actions.startGame(nbPlayers, gameName);
+            Actions.startGame(nbPlayers, gameName, multiplayer);
         }
     });
 </script>

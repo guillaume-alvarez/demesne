@@ -55,6 +55,7 @@ MapStore.prototype.handle = function (event) {
                 nb_players: event.playersNumber,
                 map_height: size,
                 map_width: size,
+                multiplayer: event.multiplayer,
             }
             Api.createData('games', data, Actions.ACTION_GAME_CREATED, {});
             // then wait until answer to start the game, do not update the store now

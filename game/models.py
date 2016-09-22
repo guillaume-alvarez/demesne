@@ -46,6 +46,7 @@ class Type(models.Model):
 class Game(models.Model):
     name = models.CharField(max_length=128, db_index=True, unique=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
+    multiplayer = models.BooleanField(default=False)
     nb_players = models.IntegerField()
     map_height = models.IntegerField()
     map_width = models.IntegerField()
