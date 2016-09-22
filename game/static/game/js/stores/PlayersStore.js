@@ -18,6 +18,22 @@ PlayersStore.prototype.color = function (id) {
     return this._colors[id];
 };
 
+PlayersStore.prototype.darkColor = function (id) {
+    var color = this._colors[id];
+    if(color.length == 7 && color.substring(0,1) == "#"){
+        var r = parseInt(color.substring(1,3),16);
+        var g = parseInt(color.substring(3,5),16);
+        var b = parseInt(color.substring(5,7),16);
+        var rDark = Math.floor(r / 1.5);
+        var gDark = Math.floor(g / 1.5);
+        var bDark = Math.floor(b / 1.5);
+        color = "#"+(rDark.toString(16).length == 1 ? "0"+rDark.toString(16):rDark.toString(16) )+
+            (gDark.toString(16).length == 1 ? "0"+gDark.toString(16):gDark.toString(16) )+
+            (bDark.toString(16).length == 1 ? "0"+bDark.toString(16):bDark.toString(16) );
+    }
+    return color;
+};
+
 PlayersStore.prototype.players = function () {
     return Object.keys(this._players).map(
         function(key){return PLAYERS_STORE._players[key];}
