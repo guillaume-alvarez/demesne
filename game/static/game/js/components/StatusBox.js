@@ -15,8 +15,17 @@ status_dialog.dialog({
     });
 
 function statusChanged(event) {
-    var text = STATUS_STORE.text();
-    status_dom.text(text);
+    window.status_first = STATUS_STORE.text();
+    if(window.status_full){
+        window.status_full = window.status_first + "<br>" +  window.status_full;
+    }else{
+        window.status_full = window.status_first;
+    }
+    if(window.open){
+        status_dom.html(window.status_full);
+    }else{
+        status_dom.html(window.status_first);
+    }
 
     // in case there was some error to notify
     var errors = STATUS_STORE.errors();

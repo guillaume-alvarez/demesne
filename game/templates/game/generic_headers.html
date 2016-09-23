@@ -42,8 +42,16 @@
         {% block content %}{% endblock %}
     </div>
 
-    <footer class="status">
-        <p class="text-muted" id="game-status">Still in progress...</p>
+
+
+    <footer >
+        <div id="game-status">
+
+        BLNQLFNQSkFJSKFNSKFNDSKJNSFFKQNFKQJS<br>
+        fdsgdgthgefqzdZFEGRBHF<br>
+        fgdhtryhetjyrrhtrgefpqlgb,noksgfl,sd<br>
+
+    </div>
     </footer>
 
     <!-- Set some values using django template to be used in JS code-->
@@ -66,6 +74,14 @@
         {% else %}
         var USER = null;
         {% endif %}
+
+        var open = false;
+        $("#game-status").click(function(){
+            $(this).animate({ height: (open?25:425) }, 600);
+            open = !open;
+            $(this).html(open ? status_full : status_first);
+
+        });
     </script>
 
     <script type="text/javascript" src="{% static 'game/js/tools/EventEmitter.js' %}"></script>

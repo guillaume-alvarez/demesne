@@ -18,7 +18,8 @@ StatusStore.prototype.errors = function () {
 };
 
 StatusStore.prototype.checkError = function (event, text) {
-    this._text = text;
+    var now = new Date();
+    this._text = "["+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds()+"] : "+text;
     if (event.error) {
         if($.type(event.error) === "string")
             this._errors = [event.error];
@@ -40,7 +41,12 @@ StatusStore.prototype.handle = function (event) {
 			break;
 
 		case Actions.ACTION_LOADED_GAME:
-		    STATUS_STORE.checkError(event, 'Loaded game.');
+		    if(!window.loadedGame){
+                STATUS_STORE.checkError(event, 'Loaded game.');
+                window.loadedGame = true;
+		    }else{
+		        return true;
+		    }
 			break;
 
 		case Actions.ACTION_ASK_TYPES:

@@ -72,7 +72,6 @@ MapStore.prototype.handle = function (event) {
                 return true;
             }
             var game = event.response;
-            console.log('Loaded game: '+JSON.stringify(game))
             MAP_STORE._gameId = game.id;
             MAP_STORE._autoReload();
             MAP_STORE._init(game.map_height, game.name);
