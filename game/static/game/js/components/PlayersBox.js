@@ -8,8 +8,9 @@ function playersChanged(event) {
     players_dom.empty();
     for (var i=0; i<players.length; i++) {
         var player = players[i];
+        var order = (player.id - active + players.length)%players.length;
         var html =
-             '<div class="panel '+(active==player.id ? 'panel-info':'panel-default')+'">'
+             '<div class="panel '+(active==player.id ? 'panel-info':'panel-default')+'" data-order="'+order+'" data-player="'+player.id+'">'
             +  '<div class="panel-heading">'
             +    '<h3 class="panel-title" style="color:'+PLAYERS_STORE.darkColor(player.id)+'">'+player.name+'</h3>'
             +  '</div>'
@@ -30,7 +31,10 @@ function playersChanged(event) {
         var panel = $(html);
         players_dom.append(panel);
     }
-
+    // change order
+    for (var i=0; i<players.length-1; i++) {
+        $("div[data-order='"+(i+1)+"']").insertAfter("div[data-order='"+(i)+"']")
+    }
 }
 
 PLAYERS_STORE.addListener(playersChanged);
