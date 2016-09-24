@@ -18,8 +18,8 @@ StatusStore.prototype.errors = function () {
 };
 
 StatusStore.prototype.checkError = function (event, text) {
-    var now = new Date();
-    this._text = "["+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds()+"] : "+text;
+    var time = new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
+    this._text = "["+time+"] : "+text;
     if (event.error) {
         if($.type(event.error) === "string")
             this._errors = [event.error];
