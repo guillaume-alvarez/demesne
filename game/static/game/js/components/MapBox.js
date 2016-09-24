@@ -133,14 +133,24 @@ function formatType(type) {
 
 function formatInfo(places){
    var info ="";
+   var infoLeft = "";
+   var infoRight = "";
    if (places && places.length > 1) {
         // on concatène l'affichage de chaque carte en rappelant la méthode avec un tableau de 1
         $.each(places, function(index,type) {
-            info += "<div class='place-description'>";
-            info += "<em>"+type.name+"</em><br>";
-            info += formatType(type);
-            info += "</div>";
+            if(type.category == "P"){
+                infoLeft += "<div class='place-description'>";
+                infoLeft += "<em>"+type.name+"</em><br>";
+                infoLeft += formatType(type);
+                infoLeft += "</div>";
+            }else{
+                infoRight += "<div class='place-description'>";
+                infoRight += "<em>"+type.name+"</em><br>";
+                infoRight += formatType(type);
+                infoRight += "</div>";
+            }
         });
+        info = "<div class='col-xs-6'>"+infoLeft+"</div><div class='col-xs-6'>"+infoRight+"</div>";
     } else if (places && places.length == 1) {
         var type = places[0];
         info += type ? formatType(type) : "<em>This tile is free and does nothing.</em>";
