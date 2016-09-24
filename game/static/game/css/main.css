@@ -93,6 +93,11 @@
     font-weight: bold;
 }
 
+
+.player-panel{
+    position:relative;
+}
+
 .multiple {
     border-left: grey 3px solid;
     border-bottom: grey 3px solid;
