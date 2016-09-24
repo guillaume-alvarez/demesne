@@ -73,10 +73,10 @@ function mapChanged(event) {
             }
             var prestigeDiv = prestigeType ?
                 '<div class="'+prestigeNodeClasses+'"><img src="'+window.staticUrl+'img/'+prestigeType.slug+'.jpg"></div>'
-                : '<div class="'+prestigeNodeClasses+'"><img src="'+window.staticUrl+'img/blank.jpg"></div>';
+                : '<div class="'+prestigeNodeClasses+'"><img src="'+window.staticUrl+'img/blank.jpg"><p class="image-overlay">Prestige</p></div>';
             var buildingDiv = buildingType ?
                 '<div class="'+buildingNodeClasses+'"><img src="'+window.staticUrl+'img/'+buildingType.slug+'.jpg"></div>'
-                : '<div class="'+buildingNodeClasses+'"><img src="'+window.staticUrl+'img/blank.jpg"></div>';
+                : '<div class="'+buildingNodeClasses+'"><img src="'+window.staticUrl+'img/blank.jpg"><p class="image-overlay">Buildings</p></div>';
             td.html(prestigeDiv + buildingDiv);
             tr.append(td);
             // add popover
