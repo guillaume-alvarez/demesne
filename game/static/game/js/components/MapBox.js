@@ -120,12 +120,12 @@ function mapChanged(event) {
 
 function formatType(type) {
     var info = "<strong>"
-        + (type.add_building >0?"<span class='slot'>+"+type.add_building+" buildings</span><br>":"")
-        + (type.add_prestige >0?"<span class='slot'>+"+type.add_prestige+" prestige</span><br>":"")
-        + (type.add_gold >0?"<span class='gold'>Player +"+type.add_gold+" <i class='fa fa-money'></i></span><br>":"")
-        + (type.add_node_gold >0?"<span class='gold'>Node +"+type.add_node_gold+" <i class='fa fa-money'></i></span><br>":"")
-        + (type.add_buy >0?"<span class='buy'>+"+type.add_buy+" BUY</span><br>":"")
-        + (type.add_points >0?"<span class='victory'>+"+type.add_points+"  <i class='fa fa-shield'></i></span><br>":"");
+        + (type.add_building >0?"<span class='slot'>+"+type.add_building+"&nbspbuildings</span><br>":"")
+        + (type.add_prestige >0?"<span class='slot'>+"+type.add_prestige+"&nbspprestige</span><br>":"")
+        + (type.add_gold >0?"<span class='gold'>Player&nbsp+"+type.add_gold+"&nbsp<i class='fa fa-money'></i></span><br>":"")
+        + (type.add_node_gold >0?"<span class='gold'>Node&nbsp+"+type.add_node_gold+"&nbsp<i class='fa fa-money'></i></span><br>":"")
+        + (type.add_buy >0?"<span class='buy'>+"+type.add_buy+"&nbspBUY</span><br>":"")
+        + (type.add_points >0?"<span class='victory'>+"+type.add_points+"&nbsp<i class='fa fa-shield'></i></span><br>":"");
     if (type.description) info += "<em>"+type.description+"</em>";
     info = info + "</strong>"
     return info;
