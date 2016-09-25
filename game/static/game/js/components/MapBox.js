@@ -88,7 +88,7 @@ function mapChanged(event) {
                 trigger:"hover",
                 container:"body",
                 content:formatInfo(places),
-                placement:"bottom",
+                placement:"left",
                 html:true
             });
 
