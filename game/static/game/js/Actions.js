@@ -15,7 +15,7 @@ var Actions = {
   startGame: function(playersNumber, name, multiplayer) {
     AppDispatcher.dispatch({
         actionType: this.ACTION_START_GAME,
-        playersNumber: playersNumber,
+        playersNumber: parseInt(playersNumber),
         name: name,
         multiplayer: multiplayer,
     });

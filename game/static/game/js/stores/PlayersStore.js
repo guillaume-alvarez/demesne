@@ -49,6 +49,10 @@ PlayersStore.prototype.isActivePlayer = function () {
     return player.user == null || player.user == USER.id;
 };
 
+PlayersStore.prototype.getActivePlayer = function () {
+    return this._players[this._active];
+};
+
 PlayersStore.prototype._updatePlayer = function (player) {
     this._players[player.id] = player;
     if (player.active) {

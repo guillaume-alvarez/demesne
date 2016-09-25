@@ -67,7 +67,7 @@
 <script>
     $("#startGameModal").modal('hide');
     $("#gameStartBtn").click(function(){
-        $("#gameName").attr('value', 'game ' + Date.now());
+        $("#gameName").attr('value', (USER.name ? USER.name : 'game') + ' ' + new Date().toLocaleString());
         $("#playerNumber").attr('value', '4');
         $("#startGameModal").modal('show');
     });

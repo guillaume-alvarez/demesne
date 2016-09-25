@@ -58,7 +58,7 @@ MapStore.prototype.handle = function (event) {
 
     switch(event.actionType) {
         case Actions.ACTION_START_GAME:
-            var size = event.playersNumber * 2;
+            var size = event.playersNumber + 2;
             MAP_STORE._init(size);
             var data = {
                 name: event.name,

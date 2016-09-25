@@ -111,12 +111,12 @@
 }
 
 .multiple {
-    border-left: grey 3px solid;
-    border-bottom: grey 3px solid;
-    border-right: white 3px solid;
-    border-top: white 3px solid;
-    border-top-left-radius: 2px;
-    padding: 0px 0px 1px 1px;
+    border-left: grey 6px solid;
+    border-bottom: grey 6px solid;
+    border-right: white 6px solid;
+    border-top: white 6px solid;
+    border-top-left-radius: 4px;
+    padding: 0px 0px 2px 2px;
 }
 
 .type {
@@ -126,6 +126,17 @@
   max-height: 154px;
   border: 2px solid gray;
   margin: auto;
+}
+
+.image-overlay {
+    /* ensure text is over image */
+    position: absolute;
+    z-index: 1;
+	top: 15px;
+	left: 0;
+    /* center text on image */
+    width: 100%;
+    text-align:center;
 }
 
 .place-description {
