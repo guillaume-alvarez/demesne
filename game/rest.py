@@ -127,7 +127,10 @@ class NodeViewset(viewsets.ReadOnlyModelViewSet):
 
 
 def check_login(request, expected_user):
-    if request.user.id != expected_user.id:
+    if expected_user is None:
+        raise rules.RuleIssue(rule='This is not a valid player yet.',
+                              message='No user has join yet.')
+    elif request.user.id != expected_user.id:
         raise rules.RuleIssue(rule='Only a logged player can perform an action.',
                               message='Expected ' + expected_user.get_username())
 

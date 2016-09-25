@@ -55,6 +55,25 @@ class Game(models.Model):
     current_player = models.ForeignKey('Player', related_name='+', null=True)
     winner = models.ForeignKey('Player', related_name='+', null=True)
 
+    def isNotFull(self):
+        for p in Player.objects.filter(game=self.id):
+            if p.user is None:
+                return True
+        return False
+
+    def placesLeft(self):
+        placesLeft = 0
+        for p in Player.objects.filter(game=self.id):
+            if p.user is None:
+                placesLeft += 1
+        return placesLeft
+
+    def isUserIn(self,userId):
+        for p in Player.objects.filter(game=self.id):
+            if p.user is not None and p.user.id == userId:
+                return True
+        return False
+
     def __str__(self):
         return self.name
 

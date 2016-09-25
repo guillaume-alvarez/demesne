@@ -34,11 +34,16 @@ def create_game(game):
     # init players
     players = []
     for p in range(game.nb_players):
-        players.append(Player(name='%s%d' % (game.owner.get_username(), p), game=game, user=game.owner))
+        if game.multiplayer:
+            if p == 0:
+                players.append(Player(name='%s' % (game.owner.get_username()), game=game, user=game.owner))
+            else:
+                players.append(Player(name='Player%d' % (p), game=game, user=None))
+        else:
+            players.append(Player(name='%s%d' % (game.owner.get_username(), p), game=game, user=game.owner))
     Player.objects.bulk_create(players)
     game.current_player = Player.objects.filter(game_id=game.id).first()
     game.save()
-
 
 def add_type(player, node, type):
     # check game is not finished
