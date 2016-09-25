@@ -25,6 +25,10 @@
     font-weight: bold;
 }
 
+#map td:hover {
+    background-color: #e0e0e0;
+}
+
 .node {
   margin: auto;
   padding: 2px;
