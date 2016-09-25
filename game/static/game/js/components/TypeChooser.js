@@ -49,7 +49,7 @@ function typeChanged(event) {
         });
         if (remaining > 0
             && PLAYERS_STORE.isActivePlayer()
-            && type.cost <= PLAYERS_STORE.getActivePlayer().turn_gold) {
+            && type.cost <= PLAYERS_STORE.getActivePlayer().turn_gold + MAP_STORE.node(asked.x, asked.y).turn_gold) {
             td.html(text + "<p>"+cost+' '+remaining+'/'+type.start_number+"</p>");
             td.click(onclick(type));
         } else {

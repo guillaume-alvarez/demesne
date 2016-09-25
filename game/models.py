@@ -15,6 +15,7 @@ class Type(models.Model):
     add_building = models.IntegerField(default=0)
     add_prestige = models.IntegerField(default=0)
     add_gold = models.IntegerField(default=0)
+    add_node_gold = models.IntegerField(default=0)
     add_points = models.IntegerField(default=0)
     add_buy = models.IntegerField(default=0)
     special_effects = models.CharField(max_length=128, null=True)
@@ -76,7 +77,7 @@ class Player(models.Model):
     game = models.ForeignKey(Game)
     gold = models.IntegerField(default=INITIAL_GOLD)
     points = models.IntegerField(default=INITIAL_POINTS)
-    turn_gold = models.IntegerField(default=INITIAL_GOLD-INITIAL_POINTS)
+    turn_gold = models.IntegerField(default=INITIAL_GOLD)
     turn_buy = models.IntegerField(default=INITIAL_BUY)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
 
@@ -94,6 +95,7 @@ class Node(models.Model):
     y = models.IntegerField()
     places = models.ManyToManyField(Type, through='Place')
     active = models.BooleanField(default=True)
+    turn_gold = models.IntegerField(default=0)
 
     def __str__(self):
         return '(%d, %d)' % (self.x, self.y)

@@ -47,7 +47,7 @@ def add_type(player, node, type):
                         '%s already won the game' % player.game.winner.name)
 
     # check player can buy the building
-    if player.turn_gold < type.cost:
+    if player.turn_gold + (node.turn_gold if node else 0) < type.cost:
         raise RuleIssue('The player must have enough gold to cover the cost for the new buildings.',
                         '%s costs %s' % (type.name, type.cost))
     if player.turn_buy < 1:
@@ -103,7 +103,12 @@ def add_type(player, node, type):
             Place.objects.create(node=node, type=type)
 
     # if it goes here the node was modified
-    player.turn_gold -= type.cost
+    if node:
+        payed_by_node = min(node.turn_gold, type.cost)
+        node.turn_gold -= payed_by_node
+        player.turn_gold -= max(type.cost - payed_by_node, 0)
+    else:
+        player.turn_gold -= type.cost
     player.turn_buy -= 1
     player.save()
     deck.nb -= 1
@@ -161,8 +166,11 @@ def end_turn(game, player):
     player.gold = Player.INITIAL_GOLD
     for node in player.node_set.all():
         if node.active:
+            node.turn_gold = 0
             for p in node.places.all():
                 player.gold += p.add_gold
+                node.turn_gold += p.add_node_gold
+            node.save()
     player.turn_gold = player.gold
 
     # recompute rights to buy from cards

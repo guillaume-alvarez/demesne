@@ -49,12 +49,12 @@ function mapChanged(event) {
 
                     if (type.category == 'B'){
                         nbBuildings++;
-                        totalBuildingGold += type.add_gold;
+                        totalBuildingGold += type.add_gold + type.add_node_gold;
                         if(!buildingType) buildingType = type;
                     }
                     else if (type.category == 'P') {
                         nbPrestige++;
-                        totalPrestigeGold += type.add_gold;
+                        totalPrestigeGold += type.add_gold + type.add_node_gold;
                         if(!prestigeType) prestigeType = type;
                     }
 
@@ -122,7 +122,8 @@ function formatType(type) {
     var info = "<strong>"
         + (type.add_building >0?"<span class='slot'>+"+type.add_building+" buildings</span><br>":"")
         + (type.add_prestige >0?"<span class='slot'>+"+type.add_prestige+" prestige</span><br>":"")
-        + (type.add_gold >0?"<span class='gold'>+"+type.add_gold+" <i class='fa fa-money'></i></span><br>":"")
+        + (type.add_gold >0?"<span class='gold'>Player +"+type.add_gold+" <i class='fa fa-money'></i></span><br>":"")
+        + (type.add_node_gold >0?"<span class='gold'>Node +"+type.add_node_gold+" <i class='fa fa-money'></i></span><br>":"")
         + (type.add_buy >0?"<span class='buy'>+"+type.add_buy+" BUY</span><br>":"")
         + (type.add_points >0?"<span class='victory'>+"+type.add_points+"  <i class='fa fa-shield'></i></span><br>":"");
     if (type.description) info += "<em>"+type.description+"</em>";
