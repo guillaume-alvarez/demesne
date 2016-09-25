@@ -8,6 +8,8 @@ function MapStore () {
     this._name = null;
     this._reloadToken = null;
     this._gameId = null;
+    this._owner = null;
+    this._multiplayer = null;
 };
 MapStore.prototype = Object.create(Store.prototype);
 MapStore.prototype.constructor = MapStore;
@@ -18,6 +20,14 @@ MapStore.prototype.node = function (x, y) {
 
 MapStore.prototype.size = function () {
     return this._size;
+};
+
+MapStore.prototype.multiplayer = function () {
+    return this._multiplayer;
+};
+
+MapStore.prototype.owner = function () {
+    return this._owner;
 };
 
 MapStore.prototype.name = function () {
@@ -73,6 +83,8 @@ MapStore.prototype.handle = function (event) {
             }
             var game = event.response;
             MAP_STORE._gameId = game.id;
+            MAP_STORE._owner = game.owner;
+            MAP_STORE._multiplayer = game.multiplayer;
             MAP_STORE._autoReload();
             MAP_STORE._init(game.map_height, game.name);
             for (var i = 0; i<game.node_set.length; i++) {
