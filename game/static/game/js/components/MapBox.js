@@ -43,6 +43,9 @@ function mapChanged(event) {
             var prestigeType = null;
             var buildingType = null;
             if (places) {
+                places.sort(function(a, b) {
+                    return b.cost - a.cost;
+                });
                 $.each(places, function(index,type){
                     maxBuildings += type.add_building;
                     maxPrestige += type.add_prestige;
