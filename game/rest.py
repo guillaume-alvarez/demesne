@@ -59,6 +59,11 @@ class GameSerializer(serializers.ModelSerializer):
         model = Game
         fields = '__all__'
 
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = '__all__'
 
 # ViewSets define the view behavior.
 class GameViewset(viewsets.ModelViewSet):
@@ -78,6 +83,11 @@ class GameViewset(viewsets.ModelViewSet):
         rules.end_turn(game, player)
         serializer = self.get_serializer(game)
         return Response(serializer.data)
+
+class UserViewset(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+    renderer_classes = (renderers.JSONRenderer,)
+    queryset = User.objects.all()
 
 
 class PlayerViewset(viewsets.ModelViewSet):
@@ -152,6 +162,7 @@ router.register(r'games', GameViewset, base_name='game')
 router.register(r'players', PlayerViewset, base_name='player')
 router.register(r'types', TypeViewset, base_name='type')
 router.register(r'nodes', NodeViewset, base_name='node')
+router.register(r'users', UserViewset, base_name='user')
 
 # Wire up our API using automatic URL routing.
 urlpatterns = [
