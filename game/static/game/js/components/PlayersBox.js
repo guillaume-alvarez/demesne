@@ -81,12 +81,25 @@ function updatePlayersDom(players,active){
                  html += '<button class="btn btn-success disabled" id="endturn" type="button">END TURN</button>';
             html += '</li>';
         }
+        if(!player.user && MAP_STORE.owner() == USER.id) {
+            html += '<li class="list-group-item">';
+            html += '<input type="text" class="form-control invite-player" />';
+            html += '<button class="btn btn-success invite-player-btn" type="button" >INVITE</button>';
+            html += '</li>';
+        }
         html += '</ul>'
              +'</div>';
         var panel = $(html);
         panel.css("top","0");
         players_dom.append(panel);
     }
+
+    // inviting TODO faire l'autocomplétion !
+    /*$(".invite-player").autocomplete({
+        source: "/api/users/",
+        minLength: 1,
+    });*/
+
     // change order
     for (var i=0; i<players.length-1; i++) {
         $("div[data-order='"+(i+1)+"']").insertAfter("div[data-order='"+(i)+"']")
