@@ -1,20 +1,29 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from .models import Game,Player
 from django.contrib.auth.models import User
 from django.http import HttpResponse
-import logging
+from .form import RegistrationForm
 
+import logging
 log = logging.getLogger(__name__)
 
 # Create your views here.
 
-def create_user(request):
-    login = request.GET["login"]
-    password = request.GET["password"]
-    user = User.objects.create_user(login,None,password)
-    user.save()
-    return HttpResponse(status=200)
+
+def register(request):
+    form = RegistrationForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            user = form.save()
+            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
+            login(request, user)
+            return redirect('list_games')
+
+    context = {'form':form}
+    return render(request, 'game/register.html', context)
+
 
 @login_required(login_url="/login/")
 def load_game(request, game_id):
@@ -22,10 +31,12 @@ def load_game(request, game_id):
     context = { 'game_id': game.id, }
     return render(request, 'game/game.html', context)
 
+
 @login_required(login_url="/login/")
 def list_games(request):
     context = {'game_list':Game.objects.all()}
     return render(request,'game/games.html',context)
+
 
 @login_required(login_url="/login/")
 def join_game(request, game_id):

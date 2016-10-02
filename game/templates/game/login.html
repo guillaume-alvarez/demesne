@@ -4,20 +4,16 @@
 
 {% block content %}
     {% if form.errors %}
-
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
-
-{% if next %}
-    {% if user.is_authenticated %}
-
-<p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-    {% else %}
-
-<p>Please login to see this page.</p>
+    <p>Your username and password didn't match. Please try again.</p>
     {% endif %}
-{% endif %}
+
+    {% if next %}
+        {% if user.is_authenticated %}
+        <p>Your account doesn't have access to this page. To proceed, please login with an account that has access.</p>
+        {% else %}
+        <p>Please login to see this page.</p>
+        {% endif %}
+    {% endif %}
 
 <div class="container">
     <div class="row">
@@ -45,7 +41,7 @@
                         <p class="bs-component">
                             <center>
                                 <input class="btn btn-success btn-sm" type="submit" value="login" />
-                                <input id="register" class="btn btn-primary btn-sm" type="submit" value="register" />
+                                <a class="btn btn-primary btn-sm" href="/register" role="button">Register new user</a>
                             </center>
                         </p>
                         <input type="hidden" name="next" value="{{ next }}" />
@@ -55,23 +51,5 @@
         </div>
     </div>
 </div>
-
-{% endblock %}
-
-
-{% block scripts %}
-<script>
-$("#register").click(function(e){
-    e.preventDefault();
-    $.ajax({
-        url: "/createUser/",
-        data : {login : $("#id_username").val(), password : $("#id_password").val()},
-        method : "GET",
-        success : function(){
-            $("div.container").before("<p>User created successfully. Login with it now !</p>");
-        }
-    });
-});
-</script>
 
 {% endblock %}
