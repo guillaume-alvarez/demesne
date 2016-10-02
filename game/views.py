@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -7,6 +8,7 @@ from django.http import HttpResponse
 from .form import RegistrationForm
 
 import logging
+logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
 
 # Create your views here.
@@ -19,6 +21,24 @@ def register(request):
             user = form.save()
             user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password1'])
             login(request, user)
+
+            if user.email:
+                from django.core.mail import send_mail
+                from textwrap import dedent
+                try:
+                    send_mail('New Demesne user ' + user.username,
+                              dedent('''\
+                              Greetings %s!
+
+                              You registered on Demesne, hope you'll enjoy it!
+
+                              Regards,
+                              The Demesne team
+                              ''' % user.username),
+                              settings.EMAIL_DEFAULT_FROM,
+                              [user.email])
+                except Exception as e:
+                    log.exception('Cannot send email to %s: %s', user.username, e)
             return redirect('list_games')
 
     context = {'form':form}
