@@ -15,6 +15,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+demesne/local_settings.py
 env/
 build/
 develop-eggs/

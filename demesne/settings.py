@@ -167,3 +167,8 @@ LOGGING = {
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'game.rest.custom_exception_handler'
 }
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
