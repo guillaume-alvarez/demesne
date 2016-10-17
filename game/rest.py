@@ -80,7 +80,7 @@ class GameViewset(viewsets.ModelViewSet):
         game = self.get_object()
         player = Player.objects.get(id=request.data['player'])
         check_login(self.request, player.user)
-        rules.end_turn(game, player)
+        rules.end_turn(request, game, player)
         serializer = self.get_serializer(game)
         return Response(serializer.data)
 
@@ -99,7 +99,7 @@ class PlayerViewset(viewsets.ModelViewSet):
     def end_turn(self, request, pk=None):
         player = self.get_object()
         check_login(self.request, player.user)
-        rules.end_turn(player.game, player)
+        rules.end_turn(request, player.game, player)
         serializer = self.get_serializer(player)
         return Response(serializer.data)
 

@@ -157,7 +157,7 @@ def is_game_finished(game):
     return finished_decks >= 3
 
 
-def end_turn(game, player):
+def end_turn(request, game, player):
     if player != game.current_player or player.game != game:
         raise Exception('%s is not current player %s' % (player.name, game.current_player.name))
 
@@ -216,7 +216,7 @@ def end_turn(game, player):
     if game.multiplayer and next_player.user_id and next_player.user_id != player.user_id and next_player.user.email:
         from django.core.mail import send_mail
         from textwrap import dedent
-        from django.urls import reverse
+        from django.core.urlresolvers import reverse
         try:
             send_mail('New turn on game ' + game.name,
                       dedent('''\
@@ -226,8 +226,9 @@ def end_turn(game, player):
 
                       Regards,
                       The Demesne team
-                      ''' % (next_player.user.username, reverse('load_game', kwargs={'game_id': game.id})),
+                      ''' % (next_player.user.username,
+                             request.build_absolute_uri(reverse('load_game', kwargs={'game_id': game.id})))),
                       settings.EMAIL_DEFAULT_FROM,
-                      [next_player.user.email]))
+                      [next_player.user.email])
         except Exception as e:
             log.exception('Cannot send email to %s: %s', next_player.user.username, e)
