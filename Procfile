@@ -1,1 +1,1 @@
-web: gunicorn demesne.wsgi
+web: gunicorn demesne.wsgi --log-file -
