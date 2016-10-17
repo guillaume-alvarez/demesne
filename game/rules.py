@@ -1,8 +1,14 @@
 from django.forms.formsets import INITIAL_FORM_COUNT
+from django.conf import settings
 
 from .models import Game, Player, Type, Node, Place, Deck
 
 from random import shuffle
+
+import logging
+logging.basicConfig(level=logging.INFO)
+log = logging.getLogger(__name__)
+
 
 # contains the basic rules for the game, validating player actions
 
@@ -205,5 +211,23 @@ def end_turn(game, player):
         next_player = players[0]
     game.current_player = next_player
     game.save()
-
     player.save()
+
+    if game.multiplayer and next_player.user_id and next_player.user_id != player.user_id and next_player.user.email:
+        from django.core.mail import send_mail
+        from textwrap import dedent
+        from django.urls import reverse
+        try:
+            send_mail('New turn on game ' + game.name,
+                      dedent('''\
+                      Greetings %s!
+
+                      Your new turn is ready to be played at %s
+
+                      Regards,
+                      The Demesne team
+                      ''' % (next_player.user.username, reverse('load_game', kwargs={'game_id': game.id})),
+                      settings.EMAIL_DEFAULT_FROM,
+                      [next_player.user.email]))
+        except Exception as e:
+            log.exception('Cannot send email to %s: %s', next_player.user.username, e)
