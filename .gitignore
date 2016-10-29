@@ -1,3 +1,8 @@
+# project specific dirs
+demesne/local_settings.py
+demesne/staticfiles
+
+
 # test DB
 /db.sqlite3
 /db.sqlite3*
@@ -15,7 +20,6 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-demesne/local_settings.py
 env/
 build/
 develop-eggs/
